@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#281903",
+                    "primary-container": "#a36634",
+                    "surface-container-high": "#ebe8e3",
+                    "secondary": "#715b3e",
+                    "on-primary-fixed-variant": "#6c3a09",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#e5e2dd",
+                    "surface-dim": "#dcdad5",
+                    "on-tertiary-fixed-variant": "#73323a",
+                    "inverse-on-surface": "#f3f0eb",
+                    "on-error-container": "#93000a",
+                    "background": "#fcf9f4",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e5e2dd",
+                    "on-primary-container": "#fffbff",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb2b8",
+                    "secondary-fixed-dim": "#dfc29f",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#ffdadb",
+                    "on-primary-fixed": "#2f1400",
+                    "on-surface": "#1c1c19",
+                    "on-tertiary-fixed": "#3b0711",
+                    "surface-container": "#f0ede9",
+                    "surface-tint": "#895120",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#ffb780",
+                    "outline": "#857469",
+                    "tertiary-container": "#aa5e66",
+                    "inverse-surface": "#31302d",
+                    "tertiary": "#8d464f",
+                    "secondary-fixed": "#fcdeba",
+                    "inverse-primary": "#ffb780",
+                    "on-background": "#1c1c19",
+                    "on-secondary-fixed-variant": "#574329",
+                    "on-surface-variant": "#52443a",
+                    "surface": "#fcf9f4",
+                    "on-tertiary-container": "#fffbff",
+                    "outline-variant": "#d7c3b6",
+                    "secondary-container": "#f9dbb7",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary": "#864e1e",
+                    "surface-bright": "#fcf9f4",
+                    "primary-fixed": "#ffdcc4",
+                    "on-secondary-container": "#755f42",
+                    "surface-container-low": "#f6f3ee"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader", "serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #FAF7F2;
+        }
+        .loading-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #C17F4A;
+            opacity: 0.3;
+        }
+        .loading-dot:nth-child(1) { opacity: 1; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center justify-center min-h-screen overflow-hidden">
+<!-- Splash Content Wrapper -->
+<main class="relative flex flex-col items-center justify-center w-full max-w-md px-8 text-center">
+<!-- Brand Identity Section -->
+<section class="flex flex-col items-center space-y-4">
+<!-- App Name (Kuno) - Using Exact Rule: Headlines Newsreader -->
+<h1 class="font-headline text-[48px] font-bold tracking-tight text-[#C17F4A] leading-none">
+                Kuno
+            </h1>
+<!-- Tagline - Using Inter 16px as requested -->
+<p class="font-body text-[16px] text-[#8B7355] font-medium tracking-wide">
+                Your shelf, your story.
+            </p>
+</section>
+<!-- Loading Indicator - Soft progress dots -->
+<footer class="mt-16 flex items-center justify-center space-x-3">
+<div class="loading-dot"></div>
+<div class="loading-dot"></div>
+<div class="loading-dot"></div>
+</footer>
+</main>
+<!-- Decorative Texture Layer (Implicit Linen Feel) -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03]" data-alt="subtle natural paper fiber texture for a tactile linen effect" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMVeN5p98sBTaDNTR7G5z9d_kaGuvk862lwYSq3vEx2UR24S2mUvLdqgV678zPO68pD7IWG6gHgHsTk8BQ7Dqx--ugZEuDphubDum-PWt2Lf7h2X0muTKZH1q5huQ59GicjHv-nuCepEz1yj1qq-eA6puwgGs7QybZLsO7OOzEhwADeP6ttRz1Ah5f_impaSWnqrujSpVs-udda5NaNcIo2NEeErthdFnmTCsvl2tAWOfdhWaZtLYCROzmrnguYRoa53rRHobWxpF4');">
+</div>
+<!-- Background Atmospheric Layer -->
+<div class="fixed inset-0 -z-10 bg-[#FAF7F2]"></div>
+</body></html>

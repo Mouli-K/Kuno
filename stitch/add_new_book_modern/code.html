@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kuno - Add a Book</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#ffb780",
+                    "on-surface-variant": "#52443a",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#c5ecc9",
+                    "surface-container-highest": "#f0e0cb",
+                    "error-container": "#ffdad6",
+                    "surface": "#fff8f3",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#ffdcc4",
+                    "on-surface": "#221a0d",
+                    "tertiary": "#8d464f",
+                    "outline-variant": "#d7c3b6",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#e7d8c2",
+                    "outline": "#857469",
+                    "primary-container": "#a36634",
+                    "secondary-fixed-dim": "#aad0ae",
+                    "inverse-primary": "#ffb780",
+                    "on-background": "#221a0d",
+                    "on-tertiary-fixed": "#3b0711",
+                    "tertiary-container": "#aa5e66",
+                    "inverse-on-surface": "#feefd8",
+                    "on-tertiary-container": "#fffbff",
+                    "primary": "#864e1e",
+                    "on-secondary-container": "#4a6c50",
+                    "on-secondary-fixed-variant": "#2c4e34",
+                    "surface-container": "#fcecd6",
+                    "on-primary-fixed": "#2f1400",
+                    "surface-container-high": "#f6e6d0",
+                    "inverse-surface": "#382f20",
+                    "secondary": "#44664b",
+                    "surface-container-low": "#fff2e0",
+                    "secondary-container": "#c5ecc9",
+                    "surface-bright": "#fff8f3",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#73323a",
+                    "surface-tint": "#895120",
+                    "on-primary-fixed-variant": "#6c3a09",
+                    "on-primary-container": "#fffbff",
+                    "tertiary-fixed": "#ffdadb",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fff8f3",
+                    "on-secondary-fixed": "#00210c",
+                    "tertiary-fixed-dim": "#ffb2b8",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#f0e0cb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader", "serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Newsreader', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen">
+<header class="fixed top-0 w-full bg-[#FAF7F2] dark:bg-stone-950/80 backdrop-blur-xl z-50 flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#C17F4A]" data-icon="menu_book">menu_book</span>
+<span class="text-2xl font-bold font-serif text-[#C17F4A] tracking-tight">Kuno</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a person with soft natural lighting and warm skin tones in a minimalist setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGeichKs5lBzXRaYQ87DUv0u_ay95CaB6qBUtqAprOfl0lat-rFVSs3UR1DqUhglqrKOejGJ5Fo_2-C432nu-P74FFrw_lM439vza3uGIf4dtQPFsNtbblbDCQAq7moOTrlPM_baLL3KZehqv1wQdVHMBfljB3O0EkY91GNTSaFnZsejvVnsCkn3ssit68jP46bd5hyTkfB4-gjogrZdGI8U5Bdgt0J3rXenHsLgoA35YmVGfmBO_keWBzxTHHmmtuddKgCdUHPo8q"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+<section class="mb-10">
+<h1 class="text-4xl font-serif font-bold text-on-surface mb-8 tracking-tight">Add a Book</h1>
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+</div>
+<input class="w-full bg-[#F2EDE4] border-[#E0D5C5] border rounded-[12px] py-4 pl-12 pr-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline/60 text-on-surface" placeholder="Search by title, author, or ISBN" type="text"/>
+</div>
+</section>
+<section class="mb-12">
+<h2 class="text-xs font-bold tracking-widest uppercase text-outline mb-6">Search Results</h2>
+<div class="space-y-6">
+<div class="flex items-center gap-4 group">
+<div class="w-[60px] h-[80px] bg-surface-container-highest flex-shrink-0 overflow-hidden rounded-sm">
+<img class="w-full h-full object-cover" data-alt="cover of a minimalist poetry book with clean white typography on a soft textured paper background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJprVJFlwKcY18x_j_WYriuyXxTSsw9SpjCoAYijcw_yCcsBco5kUx0DRkdJgtDO4VD2D_kaf0iLtxyDYBgaIgqQu0C0bQdm9L12v7ZxYkMH-mYlaOCtchNfPTmNfSzP1bQsUoEzZm3RNtrDNzi_V6R8KumgBg-XHjkfS2sDCBWOrw1vZd8LdpgGp9l6AjvKhzMelwZyW1_MNhX2lNdrRzZ879zdC85j3ZM81k6IJjvSd1Qt7caTSs2BdFFXkc0fvARk9HgJoNdNym"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-medium text-on-surface">The Architecture of Happiness</h3>
+<p class="text-sm text-outline">Alain de Botton</p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant/30 hover:bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="add">add</span>
+</button>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-[60px] h-[80px] bg-surface-container-highest flex-shrink-0 overflow-hidden rounded-sm">
+<img class="w-full h-full object-cover" data-alt="modern hardcover book with abstract beige and terracotta geometric patterns on the cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjC752SFriSrh_4fk0hwvQdJiSBuYgrpmtnZfZQRBI3WZCiqobenUOCuZ2D1bLMFurcUi0E51LC2Rya73B6eKVE6b5CYXo51e_pUtsunw6Du87mDdrejGNVuU8LomgOskkQIxgJrx9bYrgyqIb5q_DzdEFFNxP5tD0FSFv3x1rYVvtChaNPCZh6rfQ6GkxS_ncLgZfgfdsOED74Xr3XiMI2_DQMNYkch42o8LJ--X-thSkBByonRAXdBMod_gcrbWXLfiGl-uGsi72"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-medium text-on-surface">Wabi-Sabi for Artists</h3>
+<p class="text-sm text-outline">Leonard Koren</p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant/30 hover:bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+<section class="mb-12 pt-10 border-t border-outline-variant/10">
+<h2 class="text-xs font-bold tracking-widest uppercase text-outline mb-8">Manual Entry</h2>
+<div class="space-y-8">
+<div class="relative">
+<label class="absolute -top-2.5 left-4 px-1 bg-background text-[11px] font-bold tracking-widest uppercase text-primary">Book Title</label>
+<input class="w-full bg-surface-container-low border-b-2 border-primary-container/20 focus:border-primary px-4 py-4 outline-none transition-all text-on-surface font-serif text-lg" type="text" value="Meditations"/>
+</div>
+<div class="relative">
+<label class="absolute -top-2.5 left-4 px-1 bg-background text-[11px] font-bold tracking-widest uppercase text-outline">Author Name</label>
+<input class="w-full bg-surface-container-low border-b-2 border-outline-variant/20 focus:border-primary px-4 py-4 outline-none transition-all text-on-surface" placeholder="e.g. Marcus Aurelius" type="text"/>
+</div>
+<div>
+<label class="block text-[11px] font-bold tracking-widest uppercase text-outline mb-4">Spine Color</label>
+<div class="flex flex-wrap gap-4">
+<button class="w-8 h-8 rounded-full bg-[#C17F4A] ring-2 ring-offset-2 ring-primary"></button>
+<button class="w-8 h-8 rounded-full bg-[#6B8F71] ring-offset-2 ring-transparent hover:ring-outline-variant/40 transition-all"></button>
+<button class="w-8 h-8 rounded-full bg-[#C17179] ring-offset-2 ring-transparent hover:ring-outline-variant/40 transition-all"></button>
+<button class="w-8 h-8 rounded-full bg-[#6B85A0] ring-offset-2 ring-transparent hover:ring-outline-variant/40 transition-all"></button>
+<button class="w-8 h-8 rounded-full bg-[#382F20] ring-offset-2 ring-transparent hover:ring-outline-variant/40 transition-all"></button>
+<button class="w-8 h-8 rounded-full bg-[#F2EDE4] border border-outline-variant/30 ring-offset-2 ring-transparent hover:ring-outline-variant/40 transition-all"></button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="relative">
+<label class="absolute -top-2.5 left-4 px-1 bg-background text-[11px] font-bold tracking-widest uppercase text-outline">Genre</label>
+<select class="w-full bg-surface-container-low border-b-2 border-outline-variant/20 focus:border-primary px-4 py-4 outline-none transition-all text-on-surface appearance-none">
+<option>Philosophy</option>
+<option>Fiction</option>
+<option>Art &amp; Design</option>
+<option>History</option>
+</select>
+</div>
+<div class="relative">
+<label class="absolute -top-2.5 left-4 px-1 bg-background text-[11px] font-bold tracking-widest uppercase text-outline">Year</label>
+<input class="w-full bg-surface-container-low border-b-2 border-outline-variant/20 focus:border-primary px-4 py-4 outline-none transition-all text-on-surface" placeholder="2024" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<div class="mt-12">
+<button class="w-full py-5 bg-[#C17F4A] text-white font-bold tracking-[0.1em] uppercase text-sm rounded-[24px] hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-primary/10">
+                Add to Shelf
+            </button>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-[#FAF7F2]/90 dark:bg-stone-950/90 backdrop-blur-xl border-t border-stone-200/20">
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-600 hover:text-[#C17F4A] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-sans text-[11px] uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-600 hover:text-[#C17F4A] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="library_books">library_books</span>
+<span class="font-sans text-[11px] uppercase tracking-widest">Shelf</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#C17F4A] font-bold scale-110 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="add_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-sans text-[11px] uppercase tracking-widest">Add</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-600 hover:text-[#C17F4A] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-sans text-[11px] uppercase tracking-widest">Profile</span>
+</a>
+</nav>
+</body></html>

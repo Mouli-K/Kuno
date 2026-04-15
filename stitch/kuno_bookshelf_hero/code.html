@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kuno - My Shelf</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#281903",
+                        "primary-container": "#a36634",
+                        "surface-container-high": "#ebe8e3",
+                        "secondary": "#715b3e",
+                        "on-primary-fixed-variant": "#6c3a09",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e2dd",
+                        "surface-dim": "#dcdad5",
+                        "on-tertiary-fixed-variant": "#73323a",
+                        "inverse-on-surface": "#f3f0eb",
+                        "on-error-container": "#93000a",
+                        "background": "#fcf9f4",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e5e2dd",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb2b8",
+                        "secondary-fixed-dim": "#dfc29f",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-primary-fixed": "#2f1400",
+                        "on-surface": "#1c1c19",
+                        "on-tertiary-fixed": "#3b0711",
+                        "surface-container": "#f0ede9",
+                        "surface-tint": "#895120",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#ffb780",
+                        "outline": "#857469",
+                        "tertiary-container": "#aa5e66",
+                        "inverse-surface": "#31302d",
+                        "tertiary": "#8d464f",
+                        "secondary-fixed": "#fcdeba",
+                        "inverse-primary": "#ffb780",
+                        "on-background": "#1c1c19",
+                        "on-secondary-fixed-variant": "#574329",
+                        "on-surface-variant": "#52443a",
+                        "surface": "#fcf9f4",
+                        "on-tertiary-container": "#fffbff",
+                        "outline-variant": "#d7c3b6",
+                        "secondary-container": "#f9dbb7",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary": "#864e1e",
+                        "surface-bright": "#fcf9f4",
+                        "primary-fixed": "#ffdcc4",
+                        "on-secondary-container": "#755f42",
+                        "surface-container-low": "#f6f3ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .book-spine {
+            box-shadow: inset 5px 0 10px rgba(0,0,0,0.1), 2px 2px 5px rgba(44, 36, 22, 0.15);
+        }
+        .shelf-gradient {
+            background: linear-gradient(to bottom, #A0784A, #8B6335);
+        }
+        .writing-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#FCF9F7] dark:bg-[#1C1C19] bg-[#F0DFC8]/20 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a thoughtful reader in a sunlit library room with soft warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXFs3gnncQ5-scvmAdPHE3s6JjuxG83wqATnEB5Lcm7tZsDxEI6iIuTH4RLKf4kea6KCCF5gIrmr4CGtmAveYftpzMdv0gro8zpBZE3XP3dLMUX_k-gB6jwrdUVTvROor340KeEW76PDSVb08a6hJvtwGP-3V3JsbNU-m0yIbwRRTSlZT81wEUbV38lJjfWNfrr98nogyY-jrQ1zm3UXRm6uDrXpjUKbv-bxDoNXi2NgjPZGLCY-iB1psM1lMTQuPifNG5SogmKn_N"/>
+</div>
+<h1 class="font-headline text-2xl font-bold text-[#864e1e] dark:text-[#C17F4A]">Kuno</h1>
+</div>
+<button class="text-[#864e1e] dark:text-[#C17F4A] hover:bg-[#F0DFC8] dark:hover:bg-[#2C2416] p-2 rounded-full transition-colors duration-300">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-4xl mx-auto">
+<!-- Screen Header -->
+<div class="mb-8">
+<h2 class="font-headline text-[32px] text-on-surface mb-6">My Shelf</h2>
+<!-- Filter Chips -->
+<div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+<button class="px-5 py-1.5 rounded-full bg-primary text-on-primary text-sm font-medium whitespace-nowrap">All</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Reading</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Finished</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Wishlist</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Borrowed</button>
+</div>
+</div>
+<!-- Shelf Section: Currently Reading -->
+<section class="mb-12">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline text-xl text-on-surface-variant">Currently Reading</h3>
+<span class="text-xs font-label text-outline uppercase tracking-widest">3 Books</span>
+</div>
+<div class="relative pt-4">
+<div class="flex items-end px-4 gap-0.5 overflow-x-auto no-scrollbar pb-1">
+<!-- Book Spines -->
+<div class="book-spine w-[42px] h-[168px] bg-[#134e4a] rounded-sm flex flex-col items-center py-4 relative transform rotate-[-1deg]">
+<div class="w-1.5 h-1.5 bg-white/30 rounded-full mb-2"></div>
+<span class="writing-vertical text-white/90 text-[11px] font-bold tracking-wider rotate-180">THE GREAT GATSBY</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+<div class="book-spine w-[38px] h-[155px] bg-[#9a3412] rounded-sm flex flex-col items-center py-4 relative transform rotate-[2deg] -ml-1">
+<div class="w-1.5 h-1.5 bg-white/20 rounded-full mb-2"></div>
+<span class="writing-vertical text-white/80 text-[10px] font-medium rotate-180">DUNE: MESSIAH</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+<div class="book-spine w-[46px] h-[172px] bg-[#1e3a8a] rounded-sm flex flex-col items-center py-4 relative transform rotate-[-1deg] -ml-0.5">
+<div class="w-2 h-2 bg-white/40 rounded-full mb-2"></div>
+<span class="writing-vertical text-white/95 text-[12px] font-black rotate-180">STILLNESS IS KEY</span>
+<div class="absolute bottom-0 left-0 w-1.5 h-full bg-black/15"></div>
+</div>
+<!-- Decorative Object -->
+<div class="ml-8 mb-0 transform translate-y-1">
+<div class="w-12 h-10 bg-[#e5e2dd] rounded-t-lg relative">
+<div class="absolute -top-6 left-1">
+<span class="material-symbols-outlined text-[#134e4a]" style="font-variation-settings: 'FILL' 1;">potted_plant</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Wooden Shelf Plank -->
+<div class="shelf-gradient w-full h-3 rounded-full shadow-lg relative z-10">
+<div class="absolute inset-0 bg-black/10 rounded-full"></div>
+</div>
+</div>
+</section>
+<!-- Shelf Section: Already Read -->
+<section class="mb-12">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline text-xl text-on-surface-variant">Already Read</h3>
+<span class="text-xs font-label text-outline uppercase tracking-widest">12 Books</span>
+</div>
+<div class="relative pt-4">
+<div class="flex items-end px-4 gap-0.5 overflow-x-auto no-scrollbar pb-1">
+<div class="book-spine w-[40px] h-[160px] bg-[#064e3b] rounded-sm flex flex-col items-center py-4 relative transform rotate-[-2deg]">
+<span class="writing-vertical text-white/70 text-[10px] rotate-180">WALDEN</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+<div class="book-spine w-[36px] h-[152px] bg-[#7f1d1d] rounded-sm flex flex-col items-center py-4 relative">
+<span class="writing-vertical text-white/70 text-[10px] rotate-180">1984</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+<div class="book-spine w-[44px] h-[165px] bg-[#3f3f46] rounded-sm flex flex-col items-center py-4 relative transform rotate-[1deg] -ml-1">
+<span class="writing-vertical text-white/70 text-[11px] rotate-180">THE ALCHEMIST</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+<div class="book-spine w-[48px] h-[170px] bg-[#1e40af] rounded-sm flex flex-col items-center py-4 relative transform rotate-[-1deg] -ml-1">
+<span class="writing-vertical text-white/70 text-[11px] rotate-180">MEDITATIONS</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+<div class="book-spine w-[38px] h-[158px] bg-[#451a03] rounded-sm flex flex-col items-center py-4 relative transform rotate-[3deg] -ml-1">
+<span class="writing-vertical text-white/70 text-[10px] rotate-180">SIDDHARTHA</span>
+<div class="absolute bottom-0 left-0 w-1 h-full bg-black/10"></div>
+</div>
+</div>
+<!-- Wooden Shelf Plank -->
+<div class="shelf-gradient w-full h-3 rounded-full shadow-lg relative z-10">
+<div class="absolute inset-0 bg-black/10 rounded-full"></div>
+</div>
+</div>
+</section>
+<!-- Shelf Section: Want to Buy -->
+<section class="mb-12">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline text-xl text-on-surface-variant">Want to Buy</h3>
+<span class="text-xs font-label text-outline uppercase tracking-widest">5 Books</span>
+</div>
+<div class="relative pt-4">
+<div class="flex items-end px-4 gap-4 overflow-x-auto no-scrollbar pb-1">
+<!-- Wishlist are presented as ghost covers for contrast -->
+<div class="w-24 h-36 bg-surface-container rounded-sm flex flex-col items-center justify-center border-2 border-dashed border-outline-variant p-2 text-center">
+<span class="material-symbols-outlined text-outline mb-1">shopping_cart</span>
+<span class="text-[9px] font-bold text-on-surface-variant leading-tight">THE OVERSTORY</span>
+</div>
+<div class="w-24 h-36 bg-surface-container rounded-sm flex flex-col items-center justify-center border-2 border-dashed border-outline-variant p-2 text-center">
+<span class="material-symbols-outlined text-outline mb-1">shopping_cart</span>
+<span class="text-[9px] font-bold text-on-surface-variant leading-tight">CIRCE</span>
+</div>
+<div class="w-24 h-36 bg-surface-container rounded-sm flex flex-col items-center justify-center border-2 border-dashed border-outline-variant p-2 text-center">
+<span class="material-symbols-outlined text-outline mb-1">shopping_cart</span>
+<span class="text-[9px] font-bold text-on-surface-variant leading-tight">Klara and the Sun</span>
+</div>
+</div>
+<!-- Wooden Shelf Plank -->
+<div class="shelf-gradient w-full h-3 rounded-full shadow-lg relative z-10 mt-2">
+<div class="absolute inset-0 bg-black/10 rounded-full"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-28 right-6 w-14 h-14 bg-[#C17F4A] text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform active:scale-90 z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#FCF9F7]/80 dark:bg-[#1C1C19]/80 backdrop-blur-xl rounded-t-[32px] shadow-[0_-12px_32px_rgba(44,36,22,0.06)]">
+<a class="flex flex-col items-center justify-center text-[#52443a] dark:text-[#8E8377] px-5 py-1.5 hover:text-[#864e1e] dark:hover:text-[#C17F4A] transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#F0DFC8] dark:bg-[#C17F4A]/20 text-[#864e1e] dark:text-[#F0DFC8] rounded-2xl px-5 py-1.5 transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Shelf</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#52443a] dark:text-[#8E8377] px-5 py-1.5 hover:text-[#864e1e] dark:hover:text-[#C17F4A] transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Add</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#52443a] dark:text-[#8E8377] px-5 py-1.5 hover:text-[#864e1e] dark:hover:text-[#C17F4A] transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules/
+dist/
+*.local
+.env
+.env.local
+.DS_Store
+
+# Android Build
+kuno/android/build/
+kuno/android/.gradle/
+kuno/android/local.properties
+kuno/android/app/build/
+kuno/android/app/release/
+kuno/android/capacitor-cordova-android-plugins/build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Capacitor assets
+kuno/android/app/src/main/assets/public/
+kuno/android/app/src/main/assets/capacitor.config.json
+kuno/android/app/src/main/assets/capacitor.plugins.json

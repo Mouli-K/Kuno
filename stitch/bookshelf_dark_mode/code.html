@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kuno - Your Library Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#281903",
+                        "primary-container": "#a36634",
+                        "surface-container-high": "#ebe8e3",
+                        "secondary": "#715b3e",
+                        "on-primary-fixed-variant": "#6c3a09",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e2dd",
+                        "surface-dim": "#dcdad5",
+                        "on-tertiary-fixed-variant": "#73323a",
+                        "inverse-on-surface": "#f3f0eb",
+                        "on-error-container": "#93000a",
+                        "background": "#1c1a17",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e5e2dd",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb2b8",
+                        "secondary-fixed-dim": "#dfc29f",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-primary-fixed": "#2f1400",
+                        "on-surface": "#f0eae0",
+                        "on-tertiary-fixed": "#3b0711",
+                        "surface-container": "#252219",
+                        "surface-tint": "#895120",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#ffb780",
+                        "outline": "#3a3527",
+                        "tertiary-container": "#aa5e66",
+                        "inverse-surface": "#f3f0eb",
+                        "tertiary": "#8d464f",
+                        "secondary-fixed": "#fcdeba",
+                        "inverse-primary": "#ffb780",
+                        "on-background": "#f0eae0",
+                        "on-secondary-fixed-variant": "#574329",
+                        "on-surface-variant": "#d9cfc7",
+                        "surface": "#1c1a17",
+                        "on-tertiary-container": "#fffbff",
+                        "outline-variant": "#3a3527",
+                        "secondary-container": "#f9dbb7",
+                        "surface-container-lowest": "#1c1c19",
+                        "error-container": "#ffdad6",
+                        "primary": "#c17f4a",
+                        "surface-bright": "#252219",
+                        "primary-fixed": "#ffdcc4",
+                        "on-secondary-container": "#755f42",
+                        "surface-container-low": "#1c1c19"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #1c1a17;
+            color: #f0eae0;
+            font-family: 'Inter', sans-serif;
+        }
+        .serif-headline {
+            font-family: 'Newsreader', serif;
+            letter-spacing: -0.02em;
+        }
+        .shelf-plank {
+            background-color: #5c3d1e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+        .book-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            background-color: rgba(28, 26, 23, 0.85);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 glass-header">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a thoughtful man in a dimly lit library setting with warm ambient light on face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQuKql7zH6MBMpQuNOyI9d_PcaAvX8-hDPzcEusI-WrF9U-_0IeWCsc59EEtBnzozt9KZZOALScm-9uT9GVfhJRlBK1t9qIjGTKsduqLWV9nBXWYTUemnRiLpbfGr78fEWqUkFIh_YONqJVMFcAe6WtNddm2Hki6j8chXzzeE-PR_lepdNFIEVIGTEj03OFAHLrz0vYcFkvDPWSil-1YkpC2rM2ARpUoeV0lK6tqEXNB-ojL6X8QRlz3CnZkBsOYb8_adudCusngGP"/>
+</div>
+<h1 class="font-headline text-2xl font-bold text-primary">Kuno</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-5xl mx-auto">
+<!-- Hero Editorial Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<p class="text-primary font-medium mb-2 tracking-wide text-sm uppercase">Curated Collection</p>
+<h2 class="serif-headline text-5xl md:text-6xl font-semibold leading-tight max-w-xl">
+                        Your Personal <br/>Literary Sanctuary
+                    </h2>
+</div>
+<div class="flex items-center gap-4 mb-2">
+<div class="bg-surface-container px-4 py-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label text-sm font-medium">128 Books</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Search & Filters (Editorial Layout) -->
+<section class="mb-16">
+<div class="relative w-full max-w-2xl">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container border-none rounded-2xl py-4 pl-12 pr-6 focus:ring-2 focus:ring-primary text-on-surface placeholder:text-on-surface-variant transition-all" placeholder="Search by title, author, or mood..." type="text"/>
+</div>
+<div class="flex flex-wrap gap-3 mt-6">
+<button class="px-5 py-1.5 rounded-full bg-primary text-on-primary font-label text-sm font-semibold">All Shelf</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors font-label text-sm">Reading Now</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors font-label text-sm">Wishlist</button>
+<button class="px-5 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors font-label text-sm">Finished</button>
+</div>
+</section>
+<!-- Shelf Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
+<!-- Book 1 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="The Great Gatsby" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Vintage book cover of The Great Gatsby with elegant gold art deco patterns on dark green fabric" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2u8FYlchYWFhbwt_Wc8hyEk9Wv2radyGGPni3NoPJb6YxPtN0qOyqLiCcoBa3kv6ylbFtmGKjZlRi0we1bxy05yL4qQOhTU7WEnAtDIz82U8LfLGBPSvAJZBaRrR8QNhUTk_Rzenj6y9GmYTrUIUDJAWREO2r2zQl2qst7eVoPJ9qL3z1RejZnLPzDoQWlyhVsGuepEsnhuEhMABSZ684Xav792BLgZdxBLvk7QT3SiuiQVKZ-PicuqrRlYGOoKy5O9BZsEZ_Fjxn"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="w-full py-2 bg-white text-black font-bold rounded-lg text-sm">Open Reader</button>
+</div>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">The Midnight Library</h3>
+<p class="text-on-surface-variant text-sm">Matt Haig</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Book 2 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="Classical Literature" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Close up of a thick red hardcover book spine with gold embossed letters and intricate detailing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwpSju90NrctBS37h6X0zDarG_biEuIoIVH5fP4mzudKStke_KEmnNSbQwpOExsx0_zXPLS6JTpbJxe96yTjqopDQ20yQqcalvZPibYX88H0KM0FDZcXs0ZiUHVjCE1rfqS6CYGu37WT45bwlgaGbrfFn_CvDXM9tglZ3Z6dsKYJjI7ls1wYO2SUy2VIzE8_tFOuLTGyFt16Y7xZRAIdLtd1k-GK8qZ80KsNeFe_BUYFQhw02QW3HFM4SarR4Ygc6sJphIYPFjPIy8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="w-full py-2 bg-white text-black font-bold rounded-lg text-sm">Open Reader</button>
+</div>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">Circe</h3>
+<p class="text-on-surface-variant text-sm">Madeline Miller</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Book 3 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="Abstract Book Cover" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Modern minimalist book cover with bold blue and orange abstract shapes on a cream background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVRjxjhHRlYG_pNZr_KsmN9VV6PVhyyKOuYUYhl52ZXyo9S80byrGCsVa5tBWW7H62ixpAxOH9gjqYsbk-awTUeVouYpvepyMn2v8YF6B_-_J7DnmH0ynR4gVsuiw_82gQ4nnRd2lMwOn8kBLqQK9rkhx5OIi2TcZk_lrBoeyxcH-TFakKPHHxCU3heV9mT8af1X6vP6lLKByaXzqnn_EGjRFS8bdojlKpOMklIu0Ns6bqkt2UbFeev1yovC3jGsJikjyf4nbdSu5W"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="w-full py-2 bg-white text-black font-bold rounded-lg text-sm">Open Reader</button>
+</div>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">The Alchemist</h3>
+<p class="text-on-surface-variant text-sm">Paulo Coelho</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Book 4 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="Philosophy Book" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Leather bound antique book cover with aged texture and faded gold typography in a dark study" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv43wE81WoTEwtOGRrlHJiH1x-TXzElsXTZogHMP1uVR7MztttkpuoP8xSCcu0zW_VkW3WHocg__sS_uEpY419DvmKTehU_t5mngLMHYtGNrN0W5sCaHaasJXXl9uA5_1t3XbT7fWlW8VRNstjXmFD7IQ2cnDXlh2J_9MiuWFtiDmy5nnMRa8tMTgwYfWjhmwZJvmP_E6kybum6bHzu8643AxGeYWE6hdk4VteaC2dwJVdLHv8uZk_69ucQ89rCh5qGb0STRFLDmB8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<button class="w-full py-2 bg-white text-black font-bold rounded-lg text-sm">Open Reader</button>
+</div>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">Meditations</h3>
+<p class="text-on-surface-variant text-sm">Marcus Aurelius</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Book 5 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="History Book" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Moody image of a stack of books with one vibrant yellow spine highlighting a title about world history" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfpM65agBBC3uN9ENTedGMROz_1wOHIhs9eLGiWXTcxZqIalRv6N95QQClZeJyCJPiuNeW9XG7nccZpSoHg3M-1k3qTL96ZkqhbpSomgrI_Nq6PV8qW1W7OfvwfLatCQUSs8vAD3szifQSf10qZoH6eaY7vexPZxzZxOGUewxHMiJpBnh3OwNqubTVX3cNojLYkn4jS9AU8qx6YfNioZgpc2XhhaROOukKlPfRiP_2WrTHwfSQQa3hv9H_yv-Iv2ASsT_C1PHCCEdJ"/>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">Sapiens</h3>
+<p class="text-on-surface-variant text-sm">Yuval Noah Harari</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Book 6 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="Science Fiction" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Vivid purple and neon pink book cover featuring a minimalist spaceship silhouette and cosmic patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpiTHQEua2dZzCqY4nuJTZxTqHHazuKsunTECrDhESymouAYYZBN3JcVlzahgM8J2UMCGo_ha7UNi7V7biW_1oU0bhGZDuP1JbtTIxMpwjRTipc6loJ9kpgYnkg1hEAGhLuAJtSAM1N9tVgPNh9ypMDQuhmNIx0GQ-y_2ALECK_ErTjS6PfOHNHJ4MSREVvV_AutR6LXVLalmSynAUpJAgvmvZ4R71Urn_mQWJj6HcVrbXvZfGNXxmYXNqiZK6tAQKzGCAqnKMWwgw"/>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">Project Hail Mary</h3>
+<p class="text-on-surface-variant text-sm">Andy Weir</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Book 7 -->
+<div class="flex flex-col group">
+<div class="relative book-card rounded-sm mb-4 aspect-[2/3] shadow-lg">
+<img alt="Classic Fiction" class="w-full h-full object-cover rounded-sm border-l-4 border-black/20" data-alt="Deep blue book cover with a simple white illustration of a bird in flight, very high end paper texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD35b28JXiP8VX26196c45TjcJ8esyL0Eja-OB2wzht4uYRl8U65j6DWdH1e4_8hwCD_8qjlPRn3Lbwk4__7l9q-nA6I7T2XjSVoUW00sXVyBg3P0YacNzV2khSI9p30CmWk6nZc4wAEstz4V73yFrCNkvYZsutzvRRwE325ZRdy6YgByjvM45Pk1bn8GlLgWt7Tlfc1CqcXnKNcgOt8dIwSYxDmBFx7IvvLEOP0rusvRZ6DJhW82lkBJS4ZlGIngQoJGuw5Ix1F35g"/>
+</div>
+<h3 class="serif-headline text-lg font-bold truncate">To Kill a Mockingbird</h3>
+<p class="text-on-surface-variant text-sm">Harper Lee</p>
+<div class="shelf-plank h-2 w-[110%] -ml-[5%] mt-6 rounded-full"></div>
+</div>
+<!-- Add New Book Placeholder -->
+<div class="flex flex-col group">
+<div class="aspect-[2/3] border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center gap-4 hover:border-primary hover:bg-surface-container transition-all cursor-pointer">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant">add_circle</span>
+<span class="font-label text-sm font-medium text-on-surface-variant">Add Book</span>
+</div>
+<div class="h-2 w-[110%] -ml-[5%] mt-6 invisible"></div>
+</div>
+</div>
+<!-- Bento Grid Stats Section -->
+<section class="mt-24">
+<h2 class="serif-headline text-3xl font-semibold mb-8">Reading Insights</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Streak Card -->
+<div class="md:col-span-2 bg-surface-container rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-on-surface-variant font-medium text-sm mb-2">Reading Streak</p>
+<h4 class="serif-headline text-5xl font-bold">14 Days</h4>
+<p class="text-primary mt-4 font-label text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                            Keep going, you're in the top 5%
+                        </p>
+</div>
+<div class="absolute -right-12 -bottom-12 opacity-10 rotate-12">
+<span class="material-symbols-outlined text-[160px]">local_fire_department</span>
+</div>
+</div>
+<!-- Reading Progress -->
+<div class="bg-primary-container/20 border border-primary/20 rounded-3xl p-8">
+<p class="text-on-surface-variant font-medium text-sm mb-6">Current Progress</p>
+<div class="relative h-24 flex items-end gap-2">
+<div class="w-full bg-primary/20 rounded-t-lg h-[40%]"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[65%]"></div>
+<div class="w-full bg-primary rounded-t-lg h-[90%]"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[30%]"></div>
+</div>
+<p class="mt-4 font-label text-xs font-bold text-center uppercase tracking-widest text-primary">This Week</p>
+</div>
+<!-- Quote of the Day -->
+<div class="bg-surface-container-high rounded-3xl p-8 flex flex-col justify-center">
+<span class="material-symbols-outlined text-primary mb-4">format_quote</span>
+<p class="serif-headline text-lg italic text-on-surface">"A room without books is like a body without a soul."</p>
+<p class="text-on-surface-variant text-xs mt-4 uppercase tracking-tighter">— Cicero</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#1C1C19]/80 backdrop-blur-xl rounded-t-[32px] shadow-[0_-12px_32px_rgba(44,36,22,0.06)]">
+<div class="flex flex-col items-center justify-center text-[#8E8377] px-5 py-1.5 transition-transform scale-95 active:scale-90 hover:text-[#C17F4A]">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#C17F4A]/20 text-[#F0DFC8] rounded-2xl px-5 py-1.5 transition-transform scale-95 active:scale-90">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Shelf</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#8E8377] px-5 py-1.5 transition-transform scale-95 active:scale-90 hover:text-[#C17F4A]">
+<span class="material-symbols-outlined mb-1">add_circle</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Add</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#8E8377] px-5 py-1.5 transition-transform scale-95 active:scale-90 hover:text-[#C17F4A]">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-sans text-[11px] font-medium tracking-tight">Profile</span>
+</div>
+</nav>
+</body></html>

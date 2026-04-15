@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#f0ede9",
+            "background": "#fcf9f4",
+            "surface-container-high": "#ebe8e3",
+            "on-secondary-fixed": "#281903",
+            "on-primary": "#ffffff",
+            "on-surface-variant": "#52443a",
+            "surface-dim": "#dcdad5",
+            "secondary": "#715b3e",
+            "surface-variant": "#e5e2dd",
+            "on-secondary-fixed-variant": "#574329",
+            "on-background": "#1c1c19",
+            "error": "#ba1a1a",
+            "on-secondary": "#ffffff",
+            "surface": "#fcf9f4",
+            "tertiary-fixed": "#ffdadb",
+            "primary-fixed-dim": "#ffb780",
+            "on-error-container": "#93000a",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed": "#2f1400",
+            "on-primary-container": "#fffbff",
+            "tertiary-fixed-dim": "#ffb2b8",
+            "tertiary": "#8d464f",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1c1c19",
+            "on-tertiary-fixed": "#3b0711",
+            "surface-container-low": "#f6f3ee",
+            "on-secondary-container": "#755f42",
+            "inverse-on-surface": "#f3f0eb",
+            "tertiary-container": "#aa5e66",
+            "primary-fixed": "#ffdcc4",
+            "secondary-fixed-dim": "#dfc29f",
+            "secondary-fixed": "#fcdeba",
+            "on-error": "#ffffff",
+            "primary-container": "#a36634",
+            "on-tertiary-fixed-variant": "#73323a",
+            "on-primary-fixed-variant": "#6c3a09",
+            "on-tertiary-container": "#fffbff",
+            "surface-bright": "#fcf9f4",
+            "inverse-primary": "#ffb780",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#e5e2dd",
+            "outline": "#857469",
+            "surface-tint": "#895120",
+            "accent": "#C17F4A"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Newsreader", "serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-effect {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    .widget-shadow {
+      box-shadow: 0 12px 32px rgba(44, 36, 22, 0.06);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface flex items-center justify-center min-h-screen p-8">
+<!-- Widget Canvas (Simulating Android Home Screen Environment) -->
+<div class="relative w-48 h-48 aspect-square">
+<!-- 1x1 Compact Widget -->
+<div class="group relative w-full h-full bg-[#FAF7F2] rounded-3xl overflow-hidden widget-shadow transition-all duration-300 active:scale-95 cursor-pointer">
+<!-- Book Cover Image Section -->
+<div class="absolute inset-2 bottom-6">
+<div class="w-full h-full rounded-sm overflow-hidden shadow-sm">
+<img alt="Atomic Habits book cover" class="w-full h-full object-cover" data-alt="front cover of the book Atomic Habits by James Clear with minimalist white background and colorful atomic dot patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA1n4EVG9TuxyYmp-gEsOMOinnT0d_8Mq5vwI7vHK637a3YMcONUyzNay7z4mjA3xiK02je88C6Y12Csw_PJ8uLx9tGTbBY6oEi7akArWqDuJPNr9LTqbJDmZQ2lWpTtcAeko59Zs4LjuusxeRFfcm6nmGfzAJ0DQBwYvlXHpWbXmBk82k1srGtTnBeYQLrq9fBEJL0xbg0IweYUa1bRgiT-MpJ74Hzpr4fZPPd5AwB3SoCEATgTya6FJvJRpGzllAo4bsgMjDZCM-"/>
+</div>
+</div>
+<!-- Book Metadata (Subtle Text at the bottom) -->
+<div class="absolute bottom-2 left-3">
+<span class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest opacity-60">Atomic Habits</span>
+</div>
+<!-- Progress Circle Overlay -->
+<div class="absolute bottom-3 right-3">
+<div class="relative flex items-center justify-center w-10 h-10 rounded-full bg-surface/80 glass-effect shadow-sm">
+<!-- Circular Progress SVG (Subtle) -->
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle class="text-surface-container-high" cx="20" cy="20" fill="transparent" r="18" stroke="currentColor" stroke-width="2.5"></circle>
+<circle class="text-accent" cx="20" cy="20" fill="transparent" r="18" stroke="currentColor" stroke-dasharray="113.1" stroke-dashoffset="71.25" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<!-- Percentage Text -->
+<span class="text-[11px] font-bold text-accent tracking-tighter">37%</span>
+</div>
+</div>
+<!-- Subtle Reading Status Indicator (Top Right) -->
+<div class="absolute top-3 right-3">
+<div class="w-2 h-2 rounded-full bg-accent ring-4 ring-[#FAF7F2]"></div>
+</div>
+<!-- Decorative Grain Overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
+</div>
+<!-- Interaction Cue (Mock Android Shadow/Reflection) -->
+<div class="absolute -inset-1 rounded-[2rem] bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+</div>
+<!-- Note for context (not part of the widget) -->
+<div class="fixed bottom-12 text-center max-w-xs">
+<p class="font-headline italic text-lg text-primary mb-1">Kuno Home Widget</p>
+<p class="text-on-surface-variant text-sm font-body">Simulated 1x1 compact view for Android</p>
+</div>
+</body></html>

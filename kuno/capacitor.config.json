@@ -1,0 +1,14 @@
+{
+  "appId": "com.kuno.booktracker",
+  "appName": "Kuno",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_kuno_notification",
+      "iconColor": "#C17F4A"
+    }
+  }
+}

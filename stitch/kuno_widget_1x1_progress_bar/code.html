@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kuno Widget</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#000000",
+                        "on-secondary-container": "#6a635e",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-container": "#de574b",
+                        "inverse-surface": "#2e3132",
+                        "secondary-container": "#eae1da",
+                        "on-tertiary-fixed": "#410001",
+                        "on-error": "#ffffff",
+                        "primary": "#000000",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "secondary": "#645d58",
+                        "tertiary-container": "#410001",
+                        "primary-container": "#131b2e",
+                        "surface-tint": "#565e74",
+                        "tertiary-fixed": "#ffdad5",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed": "#1f1b17",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c6c6cd",
+                        "surface": "#f8f9fa",
+                        "on-background": "#191c1d",
+                        "on-tertiary-fixed-variant": "#8b1a16",
+                        "on-primary-fixed": "#131b2e",
+                        "tertiary-fixed-dim": "#ffb4aa",
+                        "secondary-fixed-dim": "#cec5bf",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary-fixed-variant": "#4b4641",
+                        "secondary-fixed": "#eae1da",
+                        "on-surface-variant": "#45464d",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-high": "#e7e8e9",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#dae2fd",
+                        "outline": "#76777d",
+                        "surface-container": "#edeeef",
+                        "on-primary-container": "#7c839b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-background flex items-center justify-center min-h-screen p-4">
+<!-- Mobile Home Screen Context Mockup (Optional for presentation) -->
+<div class="relative w-80 h-[600px] bg-slate-200 rounded-[3rem] border-8 border-slate-300 overflow-hidden shadow-2xl flex flex-col">
+<!-- Mock App Grid -->
+<div class="p-8 grid grid-cols-2 gap-6 mt-10">
+<!-- THE WIDGET: 1x1 Compact Mobile Widget -->
+<div class="aspect-square w-full bg-primary-container rounded-xl relative flex items-center justify-center">
+<!-- Central Book Icon -->
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-on-tertiary-container text-4xl" data-icon="menu_book">menu_book</span>
+<span class="text-on-primary-container font-label text-[10px] mt-1 font-bold tracking-widest uppercase">KUNO</span>
+</div>
+<!-- Bottom Right Progress Indicator -->
+<div class="absolute bottom-3 left-3 right-3 flex flex-col gap-1">
+<div class="flex justify-end">
+<span class="text-[10px] font-bold text-on-primary">37%</span>
+</div>
+<div class="w-full h-1.5 bg-on-primary-fixed-variant/30 rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container rounded-full" style="width: 37%"></div>
+</div>
+</div>
+</div>
+<!-- Other App Icons (Placeholders) -->
+<div class="aspect-square bg-surface-container-high rounded-xl opacity-40"></div>
+<div class="aspect-square bg-surface-container-high rounded-xl opacity-40"></div>
+<div class="aspect-square bg-surface-container-high rounded-xl opacity-40"></div>
+</div>
+<!-- System UI Bar Mock -->
+<div class="absolute top-0 w-full h-8 flex justify-between items-center px-8 text-[10px] font-bold opacity-30">
+<span>9:41</span>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-xs">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-xs">wifi</span>
+<span class="material-symbols-outlined text-xs">battery_full</span>
+</div>
+</div>
+</div>
+</body></html>

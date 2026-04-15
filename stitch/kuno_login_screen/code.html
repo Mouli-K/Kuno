@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#281903",
+                        "primary-container": "#a36634",
+                        "surface-container-high": "#ebe8e3",
+                        "secondary": "#715b3e",
+                        "on-primary-fixed-variant": "#6c3a09",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e2dd",
+                        "surface-dim": "#dcdad5",
+                        "on-tertiary-fixed-variant": "#73323a",
+                        "inverse-on-surface": "#f3f0eb",
+                        "on-error-container": "#93000a",
+                        "background": "#fcf9f4",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e5e2dd",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb2b8",
+                        "secondary-fixed-dim": "#dfc29f",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-primary-fixed": "#2f1400",
+                        "on-surface": "#1c1c19",
+                        "on-tertiary-fixed": "#3b0711",
+                        "surface-container": "#f0ede9",
+                        "surface-tint": "#895120",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#ffb780",
+                        "outline": "#857469",
+                        "tertiary-container": "#aa5e66",
+                        "inverse-surface": "#31302d",
+                        "tertiary": "#8d464f",
+                        "secondary-fixed": "#fcdeba",
+                        "inverse-primary": "#ffb780",
+                        "on-background": "#1c1c19",
+                        "on-secondary-fixed-variant": "#574329",
+                        "on-surface-variant": "#52443a",
+                        "surface": "#fcf9f4",
+                        "on-tertiary-container": "#fffbff",
+                        "outline-variant": "#d7c3b6",
+                        "secondary-container": "#f9dbb7",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary": "#864e1e",
+                        "surface-bright": "#fcf9f4",
+                        "primary-fixed": "#ffdcc4",
+                        "on-secondary-container": "#755f42",
+                        "surface-container-low": "#f6f3ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #FAF7F2;
+        }
+        .editorial-shadow {
+            box-shadow: 0 12px 32px rgba(44, 36, 22, 0.06);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body text-on-surface selection:bg-secondary-container">
+<div class="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+<!-- Header / Wordmark Section -->
+<header class="mb-10 flex flex-col items-center gap-2">
+<div class="flex items-center gap-2 text-[#C17F4A]">
+<span class="material-symbols-outlined text-3xl" data-icon="menu_book">menu_book</span>
+</div>
+<h1 class="font-headline text-4xl font-bold tracking-tight text-primary">Kuno</h1>
+</header>
+<!-- Login Card -->
+<main class="w-full max-w-[420px] bg-[#F2EDE4] rounded-xl editorial-shadow p-8 md:p-10">
+<div class="mb-8">
+<h2 class="font-headline text-[24px] font-semibold text-on-surface mb-2">Welcome back</h2>
+<p class="text-on-surface-variant text-sm">Return to your private digital sanctuary.</p>
+</div>
+<form class="space-y-6">
+<!-- Email Input Group -->
+<div class="space-y-2">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant ml-1" for="email">
+                        Email Address
+                    </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-[#8E8377] text-[20px]" data-icon="mail">mail</span>
+<input class="w-full bg-surface-container-highest/30 border-[#E0D5C5] rounded-xl py-3.5 pl-12 pr-4 text-on-surface placeholder:text-[#8E8377] focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none" id="email" placeholder="your@email.com" type="email"/>
+</div>
+</div>
+<!-- Password Input Group -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="password">
+                            Password
+                        </label>
+<a class="text-xs font-medium text-primary hover:underline" href="#">Forgot?</a>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-[#8E8377] text-[20px]" data-icon="lock">lock</span>
+<input class="w-full bg-surface-container-highest/30 border-[#E0D5C5] rounded-xl py-3.5 pl-12 pr-4 text-on-surface placeholder:text-[#8E8377] focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- CTA Button -->
+<div class="pt-2">
+<button class="w-full bg-[#C17F4A] hover:bg-[#a36634] text-white font-bold py-4 rounded-full transition-all active:scale-[0.98] editorial-shadow text-sm tracking-wide" type="submit">
+                        Sign In
+                    </button>
+</div>
+</form>
+<!-- Secondary Actions -->
+<div class="mt-10 text-center">
+<p class="text-on-surface-variant text-sm">
+                    New to the library? 
+                    <a class="text-[#C17F4A] font-semibold ml-1 hover:underline" href="#">Create an account</a>
+</p>
+</div>
+</main>
+<!-- Footer / Decorative Element -->
+<footer class="mt-12 opacity-40">
+<div class="flex items-center gap-6 grayscale">
+<div class="h-[1px] w-12 bg-on-surface-variant"></div>
+<span class="font-headline italic text-sm">Est. 2024</span>
+<div class="h-[1px] w-12 bg-on-surface-variant"></div>
+</div>
+</footer>
+</div>
+<!-- Background Illustration / Texture -->
+<div class="fixed inset-0 -z-10 pointer-events-none opacity-[0.03]">
+<div class="absolute top-0 right-0 w-1/2 h-full" data-alt="vintage book texture with subtle paper grain and aged edges in soft sepia tones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjgy7qOOWClSZWN9CocUJFwAsfElPnJpRIgDkWkbU0-UQ-wM0TNVUq5oZcsqThIHYHmYkC5V-yie8qrZQa8FFZ_EdHVFCFUZtcr9JUe12Cn_qlX_pjACsPEPO0zDb12qPegtLSm2ra1661soD7N8TmUF2yAPF2xm2mAQ7Xlh1ghfqJenNvcfJ1g4rETnW03CAOrkbRMxHkvz1mZj7bBiS7cGIvUUHcDgtnMxdN1Ke-UdTnw8m3EFKrcHgZaFy8VWvcXJsIvFseu9aE'); background-size: cover;"></div>
+</div>
+</body></html>

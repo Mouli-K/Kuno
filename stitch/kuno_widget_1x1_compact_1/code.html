@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#f0ede9",
+                    "background": "#fcf9f4",
+                    "surface-container-high": "#ebe8e3",
+                    "on-secondary-fixed": "#281903",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#52443a",
+                    "surface-dim": "#dcdad5",
+                    "secondary": "#715b3e",
+                    "surface-variant": "#e5e2dd",
+                    "on-secondary-fixed-variant": "#574329",
+                    "on-background": "#1c1c19",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcf9f4",
+                    "tertiary-fixed": "#ffdadb",
+                    "primary-fixed-dim": "#ffb780",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#2f1400",
+                    "on-primary-container": "#fffbff",
+                    "tertiary-fixed-dim": "#ffb2b8",
+                    "tertiary": "#8d464f",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#1c1c19",
+                    "on-tertiary-fixed": "#3b0711",
+                    "surface-container-low": "#f6f3ee",
+                    "on-secondary-container": "#755f42",
+                    "inverse-on-surface": "#f3f0eb",
+                    "tertiary-container": "#aa5e66",
+                    "primary-fixed": "#ffdcc4",
+                    "secondary-fixed-dim": "#dfc29f",
+                    "secondary-fixed": "#fcdeba",
+                    "on-error": "#ffffff",
+                    "primary-container": "#a36634",
+                    "on-tertiary-fixed-variant": "#73323a",
+                    "on-primary-fixed-variant": "#6c3a09",
+                    "on-tertiary-container": "#fffbff",
+                    "surface-bright": "#fcf9f4",
+                    "inverse-primary": "#ffb780",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e5e2dd",
+                    "outline": "#857469",
+                    "surface-tint": "#895120"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader", "serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.widget-shadow {
+    box-shadow: 0 10px 24px rgba(44, 36, 22, 0.12)
+    }
+.linen-texture {
+    background-color: #FAF7F2;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCPlZplAUganxljAhV8H02SyoI0Lfb2NDAxlkOtL7YlIGu-7FjTJcpu0A2ivUVJqs3KLTu3rOn8AuaDhXZdZRHvzf2jtBzwK0a3nI57H1DrDwScZ7CbcIWul7_TZe1H8KVAbWEIMAH_cHH7YSeKnDisDh6mK3WTvgtK8IzRwkfiab3PZTLAAXFJnmIzUeHbmGC6YqcXyQoZSMBT7hJN9PDlzYOwHSWQaOtNwnX1Gfi4l-Y_H0R8gHTYuiBqJZu4p7JA4nhDzYwogiig)
+    }
+.progress-ring {
+    transform: rotate(-90deg);
+}
+</style>
+<style>
+    body {
+      min-height: max(400px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#f0ede9] min-h-screen flex items-center justify-center p-6 font-body text-on-surface">
+<!-- 1x1 Android Widget Container (Approx 80dp x 80dp translated to 160px for high-res display) -->
+<div class="w-40 h-40 bg-[#FAF7F2] rounded-[24px] p-2 flex items-center justify-center widget-shadow linen-texture relative overflow-hidden group">
+<!-- Background Gradient (Derived from cover colors) -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50"></div>
+<!-- Main Content: Book Cover Art focused -->
+<div class="relative w-full h-full rounded-[18px] overflow-hidden shadow-sm transition-transform group-hover:scale-[1.02] duration-300">
+<img alt="Atomic Habits by James Clear" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmEjUcp6eHH37u1-NAabeVd4dNGH6amLFc_cdWS2FvaPX0T0C-Lq6njcRg4eYdQxwH3TcH5-5POhCK7_Oq_XiEejlZ7oJUo0rmoQmq9ENL3DW1uYiDR3jyG9HC9TS_eyQikZHtSQRWTAnoXLp61d70Y0JxvUXyvGcmKgjI3jcEWC_2_jLX_peR9GWoLRc-y6kDxf4nU_vtpNu5BvVdyW6Ejp3RjRmmkuTX6JVJYsQ_LrlMofORVM8B0OIMOT-vyq8k1BLoI-8cEwBY"/>
+<!-- Elegant Circular Progress Indicator Overlay -->
+<div class="absolute bottom-2 right-2 flex items-center justify-center w-10 h-10 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-white/20">
+<svg class="w-full h-full progress-ring" viewbox="0 0 32 32">
+<circle class="text-[#E0D5C5]" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-width="2.5"></circle>
+<circle class="text-primary" cx="16" cy="16" fill="transparent" r="14" stroke="currentColor" stroke-dasharray="87.96" stroke-dashoffset="55.41" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<span class="absolute text-[10px] font-bold text-on-surface leading-none">37%</span>
+</div>
+</div>
+<!-- Soft Grain Overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-multiply bg-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAUPQ60chZjGkok8ilWgx5whJeIkUlh-ZQDDoau2OFhRYq6G_giP6Ja4Zeg4BPKB5LCWIeVOGQBj-fXlLBDrWBp87zrWa9Vxu3qblD-MORUoaUXSm3GZ9Vrc7GpSPHMK-MeSnapkQFwfxFrkx4Ay0Wy8qfMUceN4Qabz1dRC7J2l_sm8SbAiNc5dyRXKsBNhBcxIM6gUW5imxlvOT1LI4umqL0EvIrpXC2u3OVOl5Yj3Ot9NPKLjJyeAJwp9-6T5ECBio3VmEo5ggsB');"></div>
+</div>
+<!-- Background Decoration (Mobile Home Screen Context) -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 blur-[120px] rounded-full"></div>
+</div>
+</body></html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#281903",
+                        "primary-container": "#a36634",
+                        "surface-container-high": "#ebe8e3",
+                        "secondary": "#715b3e",
+                        "on-primary-fixed-variant": "#6c3a09",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e2dd",
+                        "surface-dim": "#dcdad5",
+                        "on-tertiary-fixed-variant": "#73323a",
+                        "inverse-on-surface": "#f3f0eb",
+                        "on-error-container": "#93000a",
+                        "background": "#fcf9f4",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e5e2dd",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb2b8",
+                        "secondary-fixed-dim": "#dfc29f",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-primary-fixed": "#2f1400",
+                        "on-surface": "#1c1c19",
+                        "on-tertiary-fixed": "#3b0711",
+                        "surface-container": "#f0ede9",
+                        "surface-tint": "#895120",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#ffb780",
+                        "outline": "#857469",
+                        "tertiary-container": "#aa5e66",
+                        "inverse-surface": "#31302d",
+                        "tertiary": "#8d464f",
+                        "secondary-fixed": "#fcdeba",
+                        "inverse-primary": "#ffb780",
+                        "on-background": "#1c1c19",
+                        "on-secondary-fixed-variant": "#574329",
+                        "on-surface-variant": "#52443a",
+                        "surface": "#fcf9f4",
+                        "on-tertiary-container": "#fffbff",
+                        "outline-variant": "#d7c3b6",
+                        "secondary-container": "#f9dbb7",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary": "#864e1e",
+                        "surface-bright": "#fcf9f4",
+                        "primary-fixed": "#ffdcc4",
+                        "on-secondary-container": "#755f42",
+                        "surface-container-low": "#f6f3ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "2xl": "16px",
+                        "3xl": "24px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .whisper-shadow {
+            box-shadow: 0 12px 32px rgba(44, 36, 22, 0.06);
+        }
+        .leather-gradient {
+            background: linear-gradient(45deg, #864e1e 0%, #a36634 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body min-h-screen pb-32">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#FCF9F7] dark:bg-[#1C1C19]">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a young person with soft lighting and a warm, academic aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo0CadXDUF3gK_woUIXsZhbBw1jksb8CrksFzO3AJ-LDaZ7dGFQj63QELwRQf8-lGsem7cecN8Cn_tyW87vhrTIQHuJj0X_VJg7VryeMAhzP3FLXipntjO0yLDhCDrELyQsthdx6ODpqJ7WIUVaocyL70lOYxqDfdFeW_uAeYM0CtOCvhvwnBkamL6mB1CQJ8x5ZQyAqxr3_76Tj8wUOk_OoBbqV9KVb4XBfIz1IueivgHQuPAwm3o1qJ5qtiiocjC1OMGR7WXoPF6"/>
+</div>
+<span class="font-headline text-2xl font-bold text-[#864e1e] dark:text-[#C17F4A]">Kuno</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 transition-colors duration-300 hover:bg-[#F0DFC8] dark:hover:bg-[#2C2416] rounded-full text-[#864e1e] dark:text-[#C17F4A]">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 transition-colors duration-300 hover:bg-[#F0DFC8] dark:hover:bg-[#2C2416] rounded-full text-[#864e1e] dark:text-[#C17F4A]">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- Greeting Section -->
+<section class="mb-8">
+<h1 class="font-headline text-[20px] font-medium leading-tight">Good morning, Mouli ☀️</h1>
+<p class="text-on-surface-variant text-sm mt-1">Ready to escape into another world today?</p>
+</section>
+<!-- Stats Grid (Bento Style) -->
+<section class="grid grid-cols-2 gap-4 mb-10">
+<div class="bg-surface-container-low p-5 rounded-3xl flex flex-col justify-between h-32 transition-transform hover:scale-[1.02]">
+<span class="text-on-surface-variant text-xs font-medium uppercase tracking-wider">Total Books</span>
+<span class="text-3xl font-headline font-bold text-primary">124</span>
+</div>
+<div class="bg-[#E7F0F8] dark:bg-[#1E293B] p-5 rounded-3xl flex flex-col justify-between h-32 transition-transform hover:scale-[1.02]">
+<span class="text-blue-800 dark:text-blue-300 text-xs font-medium uppercase tracking-wider">Reading</span>
+<div class="flex items-end justify-between">
+<span class="text-3xl font-headline font-bold text-blue-900 dark:text-blue-100">3</span>
+<span class="material-symbols-outlined text-blue-400" data-icon="auto_stories">auto_stories</span>
+</div>
+</div>
+<div class="bg-[#EBF5EE] dark:bg-[#142E1F] p-5 rounded-3xl flex flex-col justify-between h-32 transition-transform hover:scale-[1.02]">
+<span class="text-green-800 dark:text-green-300 text-xs font-medium uppercase tracking-wider">Finished</span>
+<div class="flex items-end justify-between">
+<span class="text-3xl font-headline font-bold text-green-900 dark:text-green-100">86</span>
+<span class="material-symbols-outlined text-green-400" data-icon="task_alt">task_alt</span>
+</div>
+</div>
+<div class="bg-[#FDF2F4] dark:bg-[#3D1E24] p-5 rounded-3xl flex flex-col justify-between h-32 transition-transform hover:scale-[1.02]">
+<span class="text-rose-800 dark:text-rose-300 text-xs font-medium uppercase tracking-wider">Wishlist</span>
+<div class="flex items-end justify-between">
+<span class="text-3xl font-headline font-bold text-rose-900 dark:text-rose-100">12</span>
+<span class="material-symbols-outlined text-rose-400" data-icon="favorite">favorite</span>
+</div>
+</div>
+</section>
+<!-- Hero Card: Continue Reading -->
+<section class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline text-xl font-bold">Continue Reading</h2>
+<button class="text-primary text-sm font-semibold hover:underline">View Shelf</button>
+</div>
+<div class="bg-surface-container-lowest whisper-shadow rounded-3xl overflow-hidden flex relative group cursor-pointer transition-all hover:translate-y-[-4px]">
+<!-- Vertical Spine Strip -->
+<div class="w-3 leather-gradient h-full absolute left-0 top-0"></div>
+<div class="flex w-full p-6 pl-9">
+<!-- Book Cover -->
+<div class="w-24 h-36 flex-shrink-0 rounded-sm shadow-md overflow-hidden bg-surface-dim">
+<img alt="The Alchemist cover" class="w-full h-full object-cover" data-alt="vintage book cover for The Alchemist by Paulo Coelho with sun and desert motif in earthy gold tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtlo0qPWU3fSQXWcymLDd9HYoBC5sd8buWy9wVxASvV5KoGt-NXimKg94PLV2BTJqr9yFZxApjuMFoI410z8bWgQCddvacoKIKxrA4JfWhddaNTcL1V7nkVVxrFH2mg1maPuCxZzix2M4a0DZbE8lgPMun4_xVWR1ZuBZ82E5s_NqNl9i_ykBt8mQeaodK_dDlxEiauM1zCfMVXtikdyHGOXiO8RLLbsINnXTLNLSrNmd3N_azLPNYNdFCgpED0Bvn_Sv_TSu3JW0e"/>
+</div>
+<!-- Book Details -->
+<div class="ml-6 flex flex-col justify-center w-full">
+<h3 class="font-headline text-2xl font-bold leading-tight">The Alchemist</h3>
+<p class="text-on-surface-variant text-sm italic mb-4">Paulo Coelho</p>
+<!-- Progress Section -->
+<div class="space-y-3">
+<div class="flex justify-between items-center text-[11px] font-bold text-on-surface-variant uppercase tracking-tighter">
+<span>Page 142 of 380</span>
+<span class="text-primary">37%</span>
+</div>
+<div class="relative h-2 w-full bg-[#E0D5C5] rounded-full overflow-visible">
+<!-- Amber Gradient Progress Fill -->
+<div class="absolute left-0 top-0 h-full rounded-full leather-gradient" style="width: 37%">
+<!-- Tiny Book Icon at edge -->
+<div class="absolute -right-2 -top-2 w-6 h-6 bg-surface-container-lowest rounded-full shadow-sm flex items-center justify-center border border-primary/10">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="menu_book" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Feed: Recent Activity / Quotes -->
+<section class="mb-12">
+<h2 class="font-headline text-xl font-bold mb-4">Daily Insight</h2>
+<div class="bg-primary-container/10 p-8 rounded-[32px] relative overflow-hidden">
+<span class="material-symbols-outlined absolute -top-4 -left-4 text-primary/10 text-8xl" data-icon="format_quote">format_quote</span>
+<p class="font-headline text-lg italic text-on-surface relative z-10 leading-relaxed text-center">
+                    "It's the possibility of having a dream come true that makes life interesting."
+                </p>
+<div class="mt-4 flex justify-center">
+<div class="h-1 w-12 bg-primary/20 rounded-full"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#FCF9F7]/80 dark:bg-[#1C1C19]/80 backdrop-blur-xl rounded-t-[32px] shadow-[0_-12px_32px_rgba(44,36,22,0.06)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#F0DFC8] dark:bg-[#C17F4A]/20 text-[#864e1e] dark:text-[#F0DFC8] rounded-2xl px-5 py-1.5 transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-sans text-[11px] font-medium tracking-tight mt-1">Home</span>
+</a>
+<!-- Shelf -->
+<a class="flex flex-col items-center justify-center text-[#52443a] dark:text-[#8E8377] px-5 py-1.5 transition-transform scale-95 active:scale-90 hover:text-[#864e1e] dark:hover:text-[#C17F4A]" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="font-sans text-[11px] font-medium tracking-tight mt-1">Shelf</span>
+</a>
+<!-- Add (FAB Pivot) -->
+<a class="flex flex-col items-center justify-center text-[#52443a] dark:text-[#8E8377] px-5 py-1.5 transition-transform scale-95 active:scale-90 hover:text-[#864e1e] dark:hover:text-[#C17F4A]" href="#">
+<div class="w-10 h-10 leather-gradient rounded-full flex items-center justify-center shadow-lg -mt-8 mb-1">
+<span class="material-symbols-outlined text-white" data-icon="add">add</span>
+</div>
+<span class="font-sans text-[11px] font-medium tracking-tight">Add</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#52443a] dark:text-[#8E8377] px-5 py-1.5 transition-transform scale-95 active:scale-90 hover:text-[#864e1e] dark:hover:text-[#C17F4A]" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-sans text-[11px] font-medium tracking-tight mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
