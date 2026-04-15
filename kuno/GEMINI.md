@@ -36,16 +36,18 @@
 ## Phase 3: Android APK Build (Completed)
 - Capacitor integration for Android successfully configured.
 - Native push notifications (4-hour reminders) implemented via `@capacitor/local-notifications`.
-- Native Home Screen Widget implemented in Kotlin with real-time progress updates from Capacitor Preferences.
+- Native Home Screen Widget implemented in Java (reverted from Kotlin for compatibility) with robust color parsing and full-surface click support.
+- Implemented "Double-tap to Exit" global navigation logic with animated toast.
 - Automated build process for Android APK verified and successful.
-- Git repository initialized and pushed to GitHub.
+- Git repository initialized and pushed to GitHub (main branch).
 
 ## Key Constants & Decisions
 - **Project Name**: Kuno
 - **Core Font**: Playfair Display (Headings), Inter (Body)
 - **Primary Accent**: Sage Green (`#6B8F71`)
 - **Move Logic**: Book movement follows a strict sequential journey (Buy -> Start -> Finish/Archive).
-- **Icon Policy**: Pure iconography for all book covers to maintain UI consistency.
+- **Icon Policy**: Pure iconography for all book covers and app icon (Sage Green book design).
 - **Persistence Policy**: Local-first with Firestore sync; UI prioritizes immediate local feedback.
-- **Mobile Platform**: Android (via Capacitor 8.3.0).
+- **Mobile Platform**: Android (via Capacitor 8.3.0, Java bridge).
+- **Navigation UX**: Double-tap back button to exit app from any tab.
 
