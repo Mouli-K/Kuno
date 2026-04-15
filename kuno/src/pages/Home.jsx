@@ -66,7 +66,7 @@ const Home = () => {
     >
       <div className="px-2">
         <h2 className="text-2xl font-serif font-bold text-warm-text dark:text-dark-text tracking-tight">
-          Good morning, {userData?.displayName?.split(' ')[0] || 'Reader'} ☀️
+          Welcome back, {userData?.displayName?.split(' ')[0] || 'Reader'}
         </h2>
       </div>
 

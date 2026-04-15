@@ -229,22 +229,14 @@ const Profile = ({ notificationsEnabled, toggleNotifications }) => {
       </div>
 
       {/* Stats Summary */}
-      <div className="bg-white/60 dark:bg-dark-surface/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 dark:border-white/5 shadow-xl grid grid-cols-3 gap-8 text-center">
-        <div className="space-y-1">
+      <div className="bg-white/60 dark:bg-dark-surface/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 dark:border-white/5 shadow-xl grid grid-cols-2 gap-8 text-center">
+        <div className="space-y-1 border-r border-warm-border/20 dark:border-white/10">
           <p className="text-2xl font-black text-warm-accent font-serif">{userData?.stats?.totalRead || 0}</p>
           <p className="text-[10px] uppercase font-black tracking-widest text-warm-muted/60">Finished</p>
         </div>
-        <div className="space-y-1 border-x border-warm-border/20 dark:border-white/10">
+        <div className="space-y-1">
           <p className="text-2xl font-black text-warm-accent font-serif">{userData?.stats?.currentlyReading || 0}</p>
           <p className="text-[10px] uppercase font-black tracking-widest text-warm-muted/60">Reading</p>
-        </div>
-        <div className="space-y-1">
-          <p className="text-2xl font-black text-warm-accent font-serif">
-            {books.filter(b => b.rating).length > 0 
-              ? (books.reduce((acc, b) => acc + (b.rating || 0), 0) / books.filter(b => b.rating).length).toFixed(1)
-              : '0.0'}
-          </p>
-          <p className="text-[10px] uppercase font-black tracking-widest text-warm-muted/60">Rating</p>
         </div>
       </div>
 
@@ -255,7 +247,6 @@ const Profile = ({ notificationsEnabled, toggleNotifications }) => {
         <div className="space-y-3">
           {[
             { icon: <Books size={22} />, label: 'Books of Me', color: 'bg-warm-accent/10 text-warm-accent', action: () => setShowBooksOfMe(true) },
-            { icon: <UserIcon size={22} />, label: 'Personal Details', color: 'bg-warm-accent/10 text-warm-accent' },
             { icon: <Bell size={22} />, label: 'Notification Settings', color: 'bg-warm-rose/10 text-warm-rose', action: () => setShowNotifModal(true) },
           ].map((item, i) => (
             <button 
