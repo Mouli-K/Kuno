@@ -33,6 +33,13 @@
 - **Smart Reminders**: Implemented 4-hour in-app reading reminders based on `lastReadSessionAt` logic.
 - **Environment Safety**: Secured all Firebase credentials using `.env.local` with `VITE_` prefixing.
 
+## Phase 3: Android APK Build (Completed)
+- Capacitor integration for Android successfully configured.
+- Native push notifications (4-hour reminders) implemented via `@capacitor/local-notifications`.
+- Native Home Screen Widget implemented in Kotlin with real-time progress updates from Capacitor Preferences.
+- Automated build process for Android APK verified and successful.
+- Git repository initialized and pushed to GitHub.
+
 ## Key Constants & Decisions
 - **Project Name**: Kuno
 - **Core Font**: Playfair Display (Headings), Inter (Body)
@@ -40,9 +47,5 @@
 - **Move Logic**: Book movement follows a strict sequential journey (Buy -> Start -> Finish/Archive).
 - **Icon Policy**: Pure iconography for all book covers to maintain UI consistency.
 - **Persistence Policy**: Local-first with Firestore sync; UI prioritizes immediate local feedback.
+- **Mobile Platform**: Android (via Capacitor 8.3.0).
 
-## Phase 3: Android APK Build (Upcoming)
-- Capacitor integration for Android.
-- Native push notifications (4-hour reminders).
-- Native Home Screen Widget (Kotlin).
-- GitHub Push & Final APK generation.
