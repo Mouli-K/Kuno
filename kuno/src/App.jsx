@@ -47,16 +47,12 @@ const AppContent = () => {
     const timePeriodToExit = 2000;
 
     const backListener = CapApp.addListener('backButton', () => {
-      if (location.pathname === '/home' || location.pathname === '/splash' || location.pathname === '/login') {
-        if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
-          CapApp.exitApp();
-        } else {
-          lastTimeBackPress = new Date().getTime();
-          setShowExitToast(true);
-          setTimeout(() => setShowExitToast(false), 2000);
-        }
+      if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+        CapApp.exitApp();
       } else {
-        window.history.back();
+        lastTimeBackPress = new Date().getTime();
+        setShowExitToast(true);
+        setTimeout(() => setShowExitToast(false), 2000);
       }
     });
 

@@ -39,20 +39,33 @@ public class KunoWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.widget_book_title, title);
         views.setTextViewText(R.id.widget_book_author, author);
         views.setTextViewText(R.id.widget_progress_text, progress + "% complete");
-        views.setProgressBar(R.id.widget_progress_bar, 100, progress, false);
         
+        // Ensure progress is within 0-100
+        int finalProgress = Math.max(0, Math.min(100, progress));
+        views.setProgressBar(R.id.widget_progress_bar, 100, finalProgress, false);
+        
+        // Robust color parsing
+        int color;
         try {
-            views.setInt(R.id.widget_spine_strip, "setBackgroundColor", Color.parseColor(spineColor));
+            if (spineColor == null || !spineColor.startsWith("#")) {
+                color = Color.parseColor("#6B8F71");
+            } else {
+                color = Color.parseColor(spineColor);
+            }
         } catch (Exception e) {
-            views.setInt(R.id.widget_spine_strip, "setBackgroundColor", Color.parseColor("#6B8F71"));
+            color = Color.parseColor("#6B8F71");
         }
+        views.setInt(R.id.widget_spine_strip, "setBackgroundColor", color);
 
-        // Open app on click
+        // Open app on click - apply to root layout if possible, or multiple views
         Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(
             context, 0, intent, 
             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
+        
+        views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
         views.setOnClickPendingIntent(R.id.widget_spine_strip, pendingIntent);
         views.setOnClickPendingIntent(R.id.widget_app_name, pendingIntent);
 
