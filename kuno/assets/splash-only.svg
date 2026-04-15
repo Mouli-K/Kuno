@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2732" height="2732" viewBox="0 0 2732 2732">
+  <rect width="2732" height="2732" fill="#6B8F71"/>
+  <g transform="translate(866, 866) scale(1)">
+    <path d="M768 192H320a64 64 0 0 0-64 64v512a64 64 0 0 0 64 64h448a32 32 0 0 0 32-32V224a32 32 0 0 0-32-32zM320 256h384v448H320zm384 512H320v-32h384z" fill="#FAF7F2"/>
+    <path d="M384 320h256v64H384zm0 128h256v64H384zm0 128h192v64H384z" fill="#FAF7F2"/>
+  </g>
+  <text x="50%" y="70%" text-anchor="middle" font-family="Playfair Display, serif" font-size="120" fill="#FAF7F2">Kuno</text>
+</svg>
