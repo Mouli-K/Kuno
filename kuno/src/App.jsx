@@ -26,17 +26,44 @@ import TopBar from './components/layout/TopBar';
 import BottomNav from './components/layout/BottomNav';
 import AddBookDrawer from './components/modals/AddBookDrawer';
 
+import { App as CapApp } from '@capacitor/app';
+
 const AppContent = () => {
   const { theme, toggleTheme } = useTheme();
   useReminder();
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
   const showNav = !['/splash', '/login', '/register'].includes(location.pathname);
 
   const toggleNotifications = () => setNotificationsEnabled(!notificationsEnabled);
 
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [showExitToast, setShowExitToast] = useState(false);
+
+  useEffect(() => {
+    let lastTimeBackPress = 0;
+    const timePeriodToExit = 2000;
+
+    const backListener = CapApp.addListener('backButton', () => {
+      if (location.pathname === '/home' || location.pathname === '/splash' || location.pathname === '/login') {
+        if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+          CapApp.exitApp();
+        } else {
+          lastTimeBackPress = new Date().getTime();
+          setShowExitToast(true);
+          setTimeout(() => setShowExitToast(false), 2000);
+        }
+      } else {
+        window.history.back();
+      }
+    });
+
+    return () => {
+      backListener.then(l => l.remove());
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -62,6 +89,19 @@ const AppContent = () => {
             className="fixed top-0 left-0 right-0 z-[150] bg-warm-accent text-white py-2 px-4 text-center text-[10px] font-black uppercase tracking-widest shadow-lg"
           >
             Offline — changes will sync when connected
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showExitToast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            className="fixed bottom-32 left-1/2 -translate-x-1/2 z-[200] bg-dark-bg/80 text-white py-3 px-8 rounded-full text-xs font-black uppercase tracking-widest shadow-2xl backdrop-blur-md border border-white/10"
+          >
+            Press back twice to exit
           </motion.div>
         )}
       </AnimatePresence>
