@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { db } from '../config/firebase';
-import { doc, updateDoc, serverTimestamp, addDoc, collection } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Preferences } from '@capacitor/preferences';
+import { registerPlugin } from '@capacitor/core';
 
+const WidgetUpdate = registerPlugin('WidgetUpdate');
 const REMINDER_INTERVAL_HOURS = 4;
 
 export const useReminder = () => {
@@ -14,31 +16,31 @@ export const useReminder = () => {
     if (!currentUser || !userData) return;
 
     const setupNotifications = async () => {
-      const perm = await LocalNotifications.checkPermissions();
-      if (perm.display !== 'granted') {
-        await LocalNotifications.requestPermissions();
-      }
+      try {
+        const perm = await LocalNotifications.checkPermissions();
+        if (perm.display !== 'granted') {
+          await LocalNotifications.requestPermissions();
+        }
 
-      // Cancel previous to avoid duplicates
-      await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+        await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
 
-      if (userData.preferences?.notificationsEnabled) {
-        await LocalNotifications.schedule({
-          notifications: [
-            {
-              title: `Time to read, ${userData.displayName?.split(' ')[0]} 📖`,
-              body: "Your shelf is waiting. Pick up where you left off.",
-              id: 1,
-              schedule: { every: 'hour', count: REMINDER_INTERVAL_HOURS }, // Best approximation for "every 4 hours" in local-notifications v1/v2 style or similar logic. 
-              // Actually Capacitor v5+ uses 'hour' or similar. 
-              // For simplicity in this personal tracker, we'll set it to repeat.
-              sound: null,
-              attachments: null,
-              actionTypeId: "",
-              extra: null
-            }
-          ]
-        });
+        if (userData.preferences?.notificationsEnabled) {
+          await LocalNotifications.schedule({
+            notifications: [
+              {
+                title: `Time to read, ${userData.displayName?.split(' ')[0]} 📖`,
+                body: "Your shelf is waiting. Pick up where you left off.",
+                id: 1,
+                schedule: { every: 'day' }, // Use 'day' for reliability in simplified builds
+                sound: null,
+                actionTypeId: "",
+                extra: null
+              }
+            ]
+          });
+        }
+      } catch (err) {
+        console.error("Notification setup error:", err);
       }
     };
 
@@ -57,17 +59,38 @@ export const useReminder = () => {
     }
   };
 
-  const updateWidget = async (book) => {
-    if (!book) return;
-    const progress = Math.round((book.progress?.pagesRead / (book.progress?.totalPages || 1)) * 100) || 0;
+  const updateWidget = async (activeBooks) => {
+    // If we only get one book, wrap it in an array
+    const booksToUpdate = Array.isArray(activeBooks) ? activeBooks : [activeBooks];
     
-    await Preferences.set({ key: 'widget_title', value: book.title });
-    await Preferences.set({ key: 'widget_author', value: book.author });
-    await Preferences.set({ key: 'widget_spine_color', value: book.spineColor });
-    await Preferences.set({ key: 'widget_progress', value: progress.toString() });
-    
-    // Note: In a real app, you might need a Capacitor plugin to force the widget to refresh immediately.
-    // For this build, it will update on the next Android widget update cycle.
+    if (booksToUpdate.length === 0) return;
+
+    try {
+      // Prepare data for multiple books
+      const widgetData = booksToUpdate.slice(0, 5).map(book => ({
+        title: book.title || "Untitled",
+        author: book.author || "Unknown",
+        spineColor: book.spineColor || "#6B8F71",
+        progress: Math.round((book.progress?.pagesRead / (book.progress?.totalPages || 1)) * 100) || 0
+      }));
+
+      await Preferences.set({ 
+        key: 'widget_books_json', 
+        value: JSON.stringify(widgetData) 
+      });
+
+      // Maintain legacy keys for backward compatibility with single-book widget versions
+      const mainBook = widgetData[0];
+      await Preferences.set({ key: 'widget_title', value: mainBook.title });
+      await Preferences.set({ key: 'widget_author', value: mainBook.author });
+      await Preferences.set({ key: 'widget_spine_color', value: mainBook.spineColor });
+      await Preferences.set({ key: 'widget_progress', value: mainBook.progress.toString() });
+      
+      // Force native widget to refresh
+      await WidgetUpdate.forceUpdate();
+    } catch (err) {
+      console.warn("Widget update failed:", err);
+    }
   };
 
   return { recordSession, updateWidget };

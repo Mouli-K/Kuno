@@ -12,7 +12,6 @@ const BookSpine = ({ book, onClick }) => {
 
   return (
     <motion.div
-      layoutId={`book-${book.id}`}
       onClick={() => onClick(book)}
       whileHover={{ 
         scale: 1.05, 

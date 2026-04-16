@@ -5,33 +5,81 @@ import { db } from '../../config/firebase';
 import { doc, updateDoc, increment, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
 import { useReminder } from '../../hooks/useReminder';
+import { useNotifications } from '../../hooks/useNotifications';
 import ProgressBar from '../ui/ProgressBar';
 import FallbackIcon from '../ui/FallbackIcon';
+import { Dialog } from '@capacitor/dialog';
 
-// ... (GenreChip and StatusBadge stay the same)
+const GenreChip = ({ label }) => (
+  <span className="px-3 py-1 bg-warm-surface dark:bg-dark-surface border border-warm-border/10 rounded-lg text-[10px] font-sans font-bold uppercase tracking-widest text-warm-muted dark:text-dark-muted shadow-sm">
+    {label}
+  </span>
+);
+
+const StatusBadge = ({ status }) => {
+  const configs = {
+    'reading': { label: 'Reading Now', color: 'bg-warm-green text-white' },
+    'read': { label: 'Finished', color: 'bg-warm-blue text-white' },
+    'bought_not_started': { label: 'Unread', color: 'bg-warm-accent text-white' },
+    'want_to_buy': { label: 'Wishlist', color: 'bg-warm-rose text-white' },
+    'archive': { label: 'Not for Me', color: 'bg-warm-muted text-white opacity-60' }
+  };
+  const config = configs[status] || configs.reading;
+  return (
+    <span className={`px-4 py-1.5 rounded-full text-[10px] font-sans font-black uppercase tracking-[0.2em] shadow-lg ${config.color}`}>
+      {config.label}
+    </span>
+  );
+};
 
 const BookDetailModal = ({ book, onClose }) => {
+  if (!book) return null;
+
   const { currentUser } = useAuth();
   const { recordSession, updateWidget } = useReminder();
-  const [pagesRead, setPagesRead] = useState(book.progress?.pagesRead || 0);
+  const { createNotification } = useNotifications();
+  
+  const currentPagesRead = book?.progress?.pagesRead || 0;
+  const totalPages = Math.max(1, book?.progress?.totalPages || 0);
+  
+  const [pagesRead, setPagesRead] = useState(currentPagesRead);
   const [updating, setUpdating] = useState(false);
-  const progress = Math.round((pagesRead / (book.progress?.totalPages || 1)) * 100);
+  const progress = Math.min(100, Math.max(0, Math.round((pagesRead / totalPages) * 100) || 0));
 
   React.useEffect(() => {
-    recordSession();
-    updateWidget(book);
-  }, []);
+    if (book && book.id) {
+      recordSession();
+      updateWidget(book);
+    }
+  }, [book?.id]);
 
   const updatePagesInFirestore = async (newPages) => {
-    if (!currentUser) return;
+    if (!currentUser || !book?.id) return;
     try {
       setUpdating(true);
       const bookRef = doc(db, 'users', currentUser.uid, 'books', book.id);
+      const userRef = doc(db, 'users', currentUser.uid);
+      
+      // Check for milestones
+      if (newPages >= 100 && currentPagesRead < 100) {
+        await createNotification(`Milestone! You've read 100 pages of "${book.title}". Keep it up!`, 'milestone');
+      } else if (newPages >= 50 && currentPagesRead < 50) {
+        await createNotification(`Halfway to a hundred! 50 pages read in "${book.title}".`, 'milestone');
+      }
+
       await updateDoc(bookRef, {
         'progress.pagesRead': newPages,
-        'progress.percentComplete': Math.round((newPages / (book.progress?.totalPages || 1)) * 100),
+        'progress.percentComplete': Math.round((newPages / totalPages) * 100),
         'lastUpdated': serverTimestamp()
       });
+
+      // Update user stats for achievements
+      if (newPages > (userData?.stats?.maxPagesInOneBook || 0)) {
+        await updateDoc(userRef, {
+          'stats.maxPagesInOneBook': newPages
+        });
+      }
+
       setPagesRead(newPages);
       updateWidget({ ...book, progress: { ...book.progress, pagesRead: newPages } });
     } catch (err) {
@@ -81,7 +129,6 @@ const BookDetailModal = ({ book, onClose }) => {
 
       await updateDoc(bookRef, updateData);
 
-      // Update user stats
       const statsUpdate = {};
       if (oldStatusStat) statsUpdate[`stats.${oldStatusStat}`] = increment(-1);
       if (newStatusStat) statsUpdate[`stats.${newStatusStat}`] = increment(1);
@@ -100,7 +147,15 @@ const BookDetailModal = ({ book, onClose }) => {
 
   const removeBook = async () => {
     if (!currentUser) return;
-    if (!window.confirm("Are you sure you want to remove this book from your sanctuary?")) return;
+    
+    const { value } = await Dialog.confirm({
+      title: 'Remove Book',
+      message: 'Are you sure you want to remove this book from your sanctuary?',
+      okButtonTitle: 'Remove',
+      cancelButtonTitle: 'Keep it'
+    });
+
+    if (!value) return;
 
     try {
       setUpdating(true);
@@ -134,7 +189,7 @@ const BookDetailModal = ({ book, onClose }) => {
   const isAmazonLink = book.purchaseLink?.includes('amazon');
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -144,224 +199,206 @@ const BookDetailModal = ({ book, onClose }) => {
       />
       
       <motion.div
-        layoutId={`book-${book.id}`}
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        exit={{ y: '100%' }}
-        className="relative w-full max-w-lg bg-warm-bg dark:bg-dark-bg rounded-t-[3rem] sm:rounded-[3rem] overflow-hidden shadow-2xl z-10 flex flex-col max-h-[92vh]"
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        className="relative w-full max-w-md bg-warm-bg dark:bg-dark-bg rounded-[2.5rem] overflow-hidden shadow-2xl z-10 flex flex-col max-h-[85vh]"
       >
-        <div className="absolute top-8 right-8 z-20">
-          <button onClick={onClose} className="p-3 bg-white/80 dark:bg-black/20 backdrop-blur-md rounded-full hover:scale-110 transition-transform shadow-lg">
-            <X size={20} weight="bold" />
+        <div className="absolute top-6 right-6 z-20">
+          <button onClick={onClose} className="p-2 bg-white/80 dark:bg-black/20 backdrop-blur-md rounded-full hover:scale-110 transition-transform shadow-lg">
+            <X size={18} weight="bold" />
           </button>
         </div>
 
         <div className="flex h-full overflow-y-auto no-scrollbar">
-          {/* Decorative Side Strip */}
-          <div className="w-6 flex-shrink-0 h-full opacity-40" style={{ backgroundColor: book.spineColor }}></div>
+          <div className="w-4 flex-shrink-0 h-full opacity-40" style={{ backgroundColor: book.spineColor || '#6B8F71' }}></div>
           
-          <div className="flex-grow p-10 space-y-10">
-            {/* Header: Cover & Info */}
-            <div className="flex flex-col sm:flex-row gap-10 items-start">
+          <div className="flex-grow p-8 space-y-8">
+            <div className="flex flex-col gap-6 items-center text-center">
               <div 
-                className="w-36 h-52 rounded-2xl shadow-2xl flex-shrink-0 overflow-hidden relative group transform hover:rotate-2 transition-transform duration-500 bg-warm-surface flex items-center justify-center p-6"
-                style={{ backgroundColor: book.spineColor }}
+                className="w-28 h-40 rounded-xl shadow-2xl flex-shrink-0 overflow-hidden relative group transform hover:rotate-1 transition-transform duration-500 bg-warm-surface flex items-center justify-center p-4"
+                style={{ backgroundColor: book.spineColor || '#6B8F71' }}
               >
-                <FallbackIcon seed={book.title} size={64} color="white" />
+                <FallbackIcon seed={book.title || 'Book'} size={48} color="white" />
                 <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent"></div>
               </div>
               
-              <div className="space-y-5">
+              <div className="space-y-3">
                 <StatusBadge status={book.status} />
                 <div>
-                  <h2 className="text-3xl font-serif font-black text-warm-text dark:text-dark-text leading-[1.1] tracking-tight">
-                    {book.title}
+                  <h2 className="text-2xl font-serif font-black text-warm-text dark:text-dark-text leading-tight tracking-tight">
+                    {book.title || 'Untitled'}
                   </h2>
-                  <p className="text-lg font-medium text-warm-muted dark:text-dark-muted mt-2 uppercase tracking-[0.1em] text-xs opacity-70">
-                    {book.author}
+                  <p className="text-xs font-black text-warm-muted dark:text-dark-muted mt-1 uppercase tracking-[0.15em] opacity-70">
+                    {book.author || 'Unknown'}
                   </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {Array.isArray(book.genre) ? (
-                    book.genre.map(g => <GenreChip key={g} label={g} />)
-                  ) : (
-                    <GenreChip label={book.genre} />
-                  )}
-                  <GenreChip label={book.category} />
                 </div>
               </div>
             </div>
 
             {updating && (
-              <div className="flex items-center justify-center py-4 text-warm-accent gap-2">
-                <CircleNotch className="animate-spin" size={20} />
-                <span className="text-[10px] font-black uppercase tracking-widest">Syncing with library...</span>
+              <div className="flex items-center justify-center py-2 text-warm-accent gap-2">
+                <CircleNotch className="animate-spin" size={16} />
+                <span className="text-[9px] font-black uppercase tracking-widest">Syncing library...</span>
               </div>
             )}
 
-            {/* Progress Interactive Section */}
             {book.status === 'reading' && (
-              <div className="bg-white/60 dark:bg-dark-surface/60 backdrop-blur-sm p-8 rounded-[2.5rem] border border-white dark:border-white/5 shadow-xl space-y-8">
+              <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm p-6 rounded-[2rem] border border-white dark:border-white/5 shadow-sm space-y-6">
                 <ProgressBar progress={progress} />
                 
-                <div className="flex items-center justify-between gap-6">
+                <div className="flex items-center justify-between gap-4">
                   <button 
                     onClick={() => updatePagesInFirestore(Math.max(0, pagesRead - 10))}
                     disabled={updating}
-                    className="p-3 bg-warm-accent/10 text-warm-accent rounded-2xl active:scale-90 transition-all disabled:opacity-50"
+                    className="p-2.5 bg-warm-accent/10 text-warm-accent rounded-xl active:scale-90 transition-all disabled:opacity-50"
                   >
-                    <Minus size={20} weight="bold" />
+                    <Minus size={16} weight="bold" />
                   </button>
                   
                   <div className="text-center flex-grow">
-                    <span className="text-2xl font-black text-warm-text dark:text-dark-text font-serif">{pagesRead}</span>
-                    <span className="text-sm text-warm-muted font-bold mx-2 opacity-40">/</span>
-                    <span className="text-sm text-warm-muted font-black uppercase tracking-widest">{book.progress?.totalPages}</span>
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-warm-muted/50 mt-1">Pages Read</p>
+                    <span className="text-xl font-black text-warm-text dark:text-dark-text font-serif">{pagesRead}</span>
+                    <span className="text-xs text-warm-muted font-bold mx-1.5 opacity-40">/</span>
+                    <span className="text-xs text-warm-muted font-black uppercase tracking-widest">{book.progress?.totalPages}</span>
                   </div>
 
                   <button 
                     onClick={() => updatePagesInFirestore(Math.min(book.progress?.totalPages || 0, pagesRead + 10))}
                     disabled={updating}
-                    className="p-3 bg-warm-accent/10 text-warm-accent rounded-2xl active:scale-90 transition-all disabled:opacity-50"
+                    className="p-2.5 bg-warm-accent/10 text-warm-accent rounded-xl active:scale-90 transition-all disabled:opacity-50"
                   >
-                    <Plus size={20} weight="bold" />
+                    <Plus size={16} weight="bold" />
                   </button>
                 </div>
 
-                <div className="pt-6 border-t border-warm-border/10 grid grid-cols-2 gap-4">
+                <div className="pt-4 border-t border-warm-border/5 grid grid-cols-2 gap-3">
                    <button 
                      onClick={() => changeStatus('read')}
-                     className={`py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
+                     className={`py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
                        progress >= 90 
                        ? 'bg-warm-green text-white shadow-lg shadow-warm-green/20' 
                        : 'bg-warm-muted/10 text-warm-muted opacity-50'
                      }`}
                      disabled={updating || progress < 90}
                    >
-                     <CheckCircle size={18} />
+                     <CheckCircle size={16} />
                      Finish
                    </button>
 
                    <button 
                      onClick={() => changeStatus('archive')}
                      disabled={updating}
-                     className="py-4 bg-warm-rose/10 text-warm-rose rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-warm-rose/20 transition-all disabled:opacity-50"
+                     className="py-3 bg-warm-rose/10 text-warm-rose rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-warm-rose/20 transition-all disabled:opacity-50"
                    >
-                     <Trash size={18} />
-                     Not for me
+                     <Trash size={16} />
+                     Archive
                    </button>
                 </div>
               </div>
             )}
 
-            {/* Unread Section Logic */}
             {book.status === 'bought_not_started' && (
-              <div className="bg-white/60 dark:bg-dark-surface/60 backdrop-blur-sm p-8 rounded-[2.5rem] border border-white dark:border-white/5 shadow-xl space-y-6">
+              <div className="bg-white/40 dark:bg-dark-surface/40 p-6 rounded-[2rem] border border-white dark:border-white/5 shadow-sm">
                  <button 
-                  className="w-full py-6 bg-warm-green text-white rounded-[2rem] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-4 shadow-xl shadow-warm-green/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+                  className="w-full py-4 bg-warm-green text-white rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-lg shadow-warm-green/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
                   onClick={() => changeStatus('reading')}
                   disabled={updating}
                 >
-                  <BookOpen size={24} weight="fill" />
+                  <BookOpen size={20} weight="fill" />
                   Start Reading
                 </button>
               </div>
             )}
 
-            {/* Wishlist Special View */}
             {book.status === 'want_to_buy' && (
-              <div className="space-y-6 bg-warm-rose/5 p-8 rounded-[2.5rem] border border-warm-rose/10 shadow-sm">
+              <div className="space-y-4 bg-warm-rose/5 p-6 rounded-[2rem] border border-warm-rose/10">
                 <div className="flex justify-between items-center">
                    <div>
-                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-warm-rose opacity-60">Estimated Price</p>
-                     <p className="text-3xl font-serif font-black text-warm-text dark:text-dark-text mt-1">₹{book.price || '599'}</p>
+                     <p className="text-[8px] font-black uppercase tracking-[0.2em] text-warm-rose opacity-60">Price</p>
+                     <p className="text-2xl font-serif font-black text-warm-text dark:text-dark-text">₹{book.price || '599'}</p>
                    </div>
                    {book.purchaseLink && (
                      <a 
                        href={book.purchaseLink} 
                        target="_blank" 
                        rel="noopener noreferrer"
-                       className={`p-4 rounded-2xl flex items-center gap-3 font-black uppercase tracking-widest text-[10px] transition-all hover:scale-105 active:scale-95 shadow-lg ${
-                         isAmazonLink 
-                         ? 'bg-black text-white' 
-                         : 'bg-[#F3AE02] text-black'
+                       className={`p-3 rounded-xl flex items-center gap-2 font-black uppercase tracking-widest text-[9px] transition-all hover:scale-105 active:scale-95 shadow-md ${
+                         isAmazonLink ? 'bg-black text-white' : 'bg-[#F3AE02] text-black'
                        }`}
                      >
-                       {isAmazonLink ? <AmazonLogo size={20} /> : <Bag size={20} weight="fill" />}
-                       Buy Now
+                       {isAmazonLink ? <AmazonLogo size={16} /> : <Bag size={16} weight="fill" />}
+                       Buy
                      </a>
                    )}
                 </div>
                 
                 <button 
-                  className="w-full py-5 bg-warm-accent text-white rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl shadow-warm-accent/20 hover:translate-y-[-2px] transition-all disabled:opacity-50"
+                  className="w-full py-4 bg-warm-accent text-white rounded-xl font-black uppercase tracking-widest text-[9px] flex items-center justify-center gap-2 shadow-lg shadow-warm-accent/20 hover:translate-y-[-1px] transition-all disabled:opacity-50"
                   onClick={() => changeStatus('bought_not_started')}
                   disabled={updating}
                 >
-                  <ShoppingCart size={18} weight="bold" />
-                  I bought this book
+                  <ShoppingCart size={16} weight="bold" />
+                  Mark as Bought
                 </button>
               </div>
             )}
 
-            {/* Archive Section Logic */}
             {book.status === 'archive' && (
-              <div className="bg-black/5 dark:bg-white/5 p-8 rounded-[2.5rem] border border-black/10 dark:border-white/10 shadow-sm space-y-6">
-                <p className="text-center text-xs font-medium text-warm-muted italic">"Sometimes the right book just needs the right time."</p>
+              <div className="bg-black/5 dark:bg-white/5 p-6 rounded-[2rem] border border-black/10 dark:border-white/10 shadow-sm space-y-4">
+                <p className="text-center text-[10px] font-medium text-warm-muted italic opacity-80 px-4">"Sometimes the right book just needs the right time."</p>
                  <button 
-                  className="w-full py-5 bg-warm-text dark:bg-dark-surface text-white rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl hover:translate-y-[-2px] transition-all disabled:opacity-50"
+                  className="w-full py-4 bg-warm-text dark:bg-dark-surface text-white rounded-xl font-black uppercase tracking-widest text-[9px] flex items-center justify-center gap-3 shadow-lg hover:translate-y-[-1px] active:translate-y-0 transition-all disabled:opacity-50"
                   onClick={() => changeStatus('reading')}
                   disabled={updating}
                 >
-                  <ArrowRight size={18} weight="bold" />
+                  <ArrowRight size={16} weight="bold" />
                   Give it another chance
                 </button>
               </div>
             )}
 
-            {/* Review Section */}
-            {(book.status === 'read' || book.status === 'archive') && (
-              <div className="space-y-4 bg-warm-accent/5 p-8 rounded-[2.5rem] border border-warm-accent/10">
-                <div className="flex items-center gap-3">
-                  <Star size={20} weight="fill" className="text-warm-accent" />
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-warm-accent">Literary Review</h4>
+            {book.status === 'read' && (
+              <div className="space-y-4 bg-warm-accent/5 p-6 rounded-[2rem] border border-warm-accent/10">
+                <div className="flex items-center gap-2 justify-center mb-2">
+                  <Star size={16} weight="fill" className="text-warm-accent" />
+                  <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-warm-accent">Literary Review</h4>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-center">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star 
                       key={star} 
-                      size={24} 
+                      size={20} 
                       weight={star <= (book.rating || 0) ? 'fill' : 'regular'} 
                       className={star <= (book.rating || 0) ? 'text-warm-accent' : 'text-warm-muted/20'}
                     />
                   ))}
                 </div>
-                <div className="relative mt-4">
-                   <Quotes size={20} className="absolute -left-2 -top-2 opacity-20" />
-                   <p className="text-sm italic text-warm-text/80 dark:text-dark-text/80 leading-relaxed pl-4">
-                     {book.notes || "This book left an indelible mark on my sanctuary of thought."}
-                   </p>
-                </div>
+                {book.notes && (
+                  <div className="relative mt-2">
+                    <p className="text-[11px] italic text-warm-text/70 dark:text-dark-text/70 leading-relaxed text-center px-2">
+                      "{book.notes}"
+                    </p>
+                  </div>
+                )}
+                <button 
+                  className="w-full py-3 mt-2 bg-warm-accent/10 text-warm-accent rounded-xl font-black uppercase tracking-widest text-[8px] flex items-center justify-center gap-2 hover:bg-warm-accent/20 transition-all"
+                  onClick={() => changeStatus('reading')}
+                  disabled={updating}
+                >
+                  <ArrowRight size={14} weight="bold" />
+                  Read again
+                </button>
               </div>
             )}
 
-            {/* Actions */}
-            <div className="flex gap-4 pt-6">
-              <button 
-                disabled={updating}
-                className="flex-1 flex items-center justify-center gap-3 py-5 bg-white dark:bg-dark-surface rounded-[2rem] font-black uppercase tracking-widest text-[10px] text-warm-muted shadow-sm hover:text-warm-accent hover:border-warm-accent/20 border border-transparent transition-all disabled:opacity-50"
-              >
-                <PencilSimple size={20} weight="bold" />
-                Edit Details
-              </button>
+            <div className="pt-2">
               <button 
                 onClick={removeBook}
                 disabled={updating}
-                className="flex-1 flex items-center justify-center gap-3 py-5 bg-white dark:bg-dark-surface rounded-[2rem] font-black uppercase tracking-widest text-[10px] text-warm-muted shadow-sm hover:text-warm-rose hover:border-warm-rose/20 border border-transparent transition-all disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 py-3 bg-white/50 dark:bg-dark-surface/50 rounded-xl font-black uppercase tracking-widest text-[9px] text-warm-muted hover:text-warm-rose transition-all disabled:opacity-50"
               >
-                <Trash size={20} weight="bold" />
-                Remove
+                <Trash size={16} weight="bold" />
+                Remove from Sanctuary
               </button>
             </div>
           </div>

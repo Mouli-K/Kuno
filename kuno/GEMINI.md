@@ -41,6 +41,17 @@
 - Automated build process for Android APK verified and successful.
 - Git repository initialized and pushed to GitHub (main branch).
 
+## Phase 4: UX Refinement & Widget Fixes (Current)
+- **Widget Loading Fix**: Corrected Android Manifest package mapping and resource definitions to resolve "Can't load widget" error.
+- **Data Synchronization**:
+    - Implemented **Pull-to-Refresh** gesture on Home and Shelf pages for manual library re-sync.
+    - Added manual refresh buttons (ArrowsClockwise) to top headers.
+    - Updated `useBooks` hook to support forced refresh logic.
+- **Robust Navigation**: 
+    - Fixed "Blank Screen" issue in `BookDetailModal` by adding null-safety guards for book data.
+    - Improved loading states to prevent UI flickering during background sync.
+- **Improved Android Layouts**: Simplified widget XML to ensure compatibility with standard Android RemoteViews.
+
 ## Key Constants & Decisions
 - **Project Name**: Kuno
 - **Core Font**: Playfair Display (Headings), Inter (Body)

@@ -5,6 +5,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../config/firebase';
 import { collection, addDoc, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore';
 import FallbackIcon from '../ui/FallbackIcon';
+import { getRandomBookColor } from '../../utils/colors';
+import { Dialog } from '@capacitor/dialog';
 
 const AddBookDrawer = ({ isOpen, onClose }) => {
   const { currentUser, userData } = useAuth();
@@ -72,7 +74,7 @@ const AddBookDrawer = ({ isOpen, onClose }) => {
       author: info.authors ? info.authors[0] : 'Unknown Author',
       totalPages: info.pageCount || 0,
       description: info.description || '',
-      spineColor: '#6B8F71', // Default, should extract from cover in future
+      spineColor: getRandomBookColor(),
       googleBooksId: book.id,
       coverUrl: info.imageLinks?.thumbnail || ''
     });
@@ -87,6 +89,7 @@ const AddBookDrawer = ({ isOpen, onClose }) => {
 
     try {
       setAdding(true);
+      const finalSpineColor = selectedBook.spineColor || getRandomBookColor();
       
       const bookData = {
         title: selectedBook.title,
@@ -95,7 +98,7 @@ const AddBookDrawer = ({ isOpen, onClose }) => {
         genre: genres.split(',').map(g => g.trim()),
         category: category,
         coverUrl: selectedBook.coverUrl,
-        spineColor: selectedBook.spineColor,
+        spineColor: finalSpineColor,
         status: status,
         rating: rating,
         progress: {
@@ -131,9 +134,31 @@ const AddBookDrawer = ({ isOpen, onClose }) => {
         });
       }
 
+      await Dialog.alert({
+        title: 'Book Added!',
+        message: `"${selectedBook.title}" has been added to your sanctuary.`
+      });
+
+      // Reset state immediately before closing
+      setSearch('');
+      setResults([]);
+      setSelectedBook(null);
+      setStatus('reading');
+      setCategory('Fiction');
+      setGenres('');
+      setRating(0);
+      setPagesRead('');
+      setTotalPages('');
+      setNotes('');
+      setBuyLink('');
+
       onClose();
     } catch (err) {
       console.error("Error adding book: ", err);
+      await Dialog.alert({
+        title: 'Error',
+        message: 'Could not add book to library. Please try again.'
+      });
     } finally {
       setAdding(false);
     }

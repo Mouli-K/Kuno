@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "448128395227",
+    "project_id": "kuno-8c1da",
+    "storage_bucket": "kuno-8c1da.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448128395227:android:3d11e1505e7b8582c0e9fe",
+        "android_client_info": {
+          "package_name": "com.kuno.booktracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448128395227-8687jvrbvgsf1eskasgnlgqfmc7iv1th.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kuno.booktracker",
+            "certificate_hash": "72a8822d2808c2063e6647cebbf555bde5b00ddd"
+          }
+        },
+        {
+          "client_id": "448128395227-5bmd5ac4pvrrrf6d1uie6e00s8anb8on.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVKi68QQihTdDm38RRqRqdnwckZHJeprM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448128395227-5bmd5ac4pvrrrf6d1uie6e00s8anb8on.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

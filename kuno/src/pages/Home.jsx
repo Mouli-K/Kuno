@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Books, BookmarkSimple, CheckCircle, ShoppingCart, Quotes as QuotesIcon, CircleNotch } from '@phosphor-icons/react';
+import { motion } from 'framer-motion';
+import { ArrowsClockwise, Books, BookmarkSimple, CheckCircle, ShoppingCart, Quotes as QuotesIcon, CircleNotch } from '@phosphor-icons/react';
 import { useAuth } from '../contexts/AuthContext';
 import { useBooks } from '../hooks/useBooks';
+import { useReminder } from '../hooks/useReminder';
+import { useAchievements } from '../hooks/useAchievements';
 import { quotes } from '../data/quotes';
 import ProgressBar from '../components/ui/ProgressBar';
-import BookDetailModal from '../components/modals/BookDetailModal';
 import FallbackIcon from '../components/ui/FallbackIcon';
+import PullToRefresh from '../components/ui/PullToRefresh';
+import { Trophy, Lightning, ChartLineUp } from '@phosphor-icons/react';
 
 const Home = () => {
-  const { userData, loading: authLoading } = useAuth();
-  const { books, loading: booksLoading } = useBooks();
-  const [selectedBook, setSelectedBook] = useState(null);
+  const { userData, loading: authLoading, setSelectedBook } = useAuth();
+  const { books, loading: booksLoading, refresh } = useBooks();
+  const { achievements } = useAchievements();
   const [randomQuote, setRandomQuote] = useState(quotes[0]);
   
   const currentlyReading = books.filter(b => b.status === 'reading');
+  const { updateWidget } = useReminder();
+
+  useEffect(() => {
+    if (currentlyReading.length > 0) {
+      updateWidget(currentlyReading);
+    }
+  }, [books]);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     setRandomQuote(quotes[randomIndex]);
   }, []);
 
-  if (authLoading || booksLoading) {
+  if (authLoading || (booksLoading && books.length === 0)) {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh] text-warm-muted">
         <CircleNotch size={48} className="animate-spin mb-4" />
@@ -38,37 +48,46 @@ const Home = () => {
       color: 'bg-warm-accent/10 text-warm-accent' 
     },
     { 
-      label: 'Reading', 
-      value: userData?.stats?.currentlyReading || 0, 
-      icon: <BookmarkSimple size={24} />, 
-      color: 'bg-warm-green/10 text-warm-green' 
+      label: 'Streak', 
+      value: `${userData?.stats?.dayStreak || 0}d`, 
+      icon: <Lightning size={24} />, 
+      color: 'bg-warm-rose/10 text-warm-rose' 
+    },
+    { 
+      label: 'Max Pages', 
+      value: userData?.stats?.maxPagesInOneBook || 0, 
+      icon: <ChartLineUp size={24} />, 
+      color: 'bg-warm-blue/10 text-warm-blue' 
     },
     { 
       label: 'Finished', 
       value: userData?.stats?.totalRead || 0, 
       icon: <CheckCircle size={24} />, 
-      color: 'bg-warm-blue/10 text-warm-blue' 
-    },
-    { 
-      label: 'Wishlist', 
-      value: userData?.stats?.wantToBuy || 0, 
-      icon: <ShoppingCart size={24} />, 
-      color: 'bg-warm-rose/10 text-warm-rose' 
+      color: 'bg-warm-green/10 text-warm-green' 
     },
   ];
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -15 }}
-      className="px-6 space-y-10 pb-32"
-    >
-      <div className="px-2">
-        <h2 className="text-2xl font-serif font-bold text-warm-text dark:text-dark-text tracking-tight">
-          Welcome back, {userData?.displayName?.split(' ')[0] || 'Reader'}
-        </h2>
-      </div>
+    <div className="relative">
+      <PullToRefresh onRefresh={refresh} />
+      
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15 }}
+        className="px-6 space-y-10 pb-32"
+      >
+        <div className="px-2 flex justify-between items-center">
+          <h2 className="text-2xl font-serif font-bold text-warm-text dark:text-dark-text tracking-tight">
+            Welcome back, {userData?.displayName?.split(' ')[0] || 'Reader'}
+          </h2>
+          <button 
+            onClick={refresh}
+            className={`p-2 rounded-full bg-warm-surface dark:bg-dark-surface text-warm-muted transition-all active:rotate-180 duration-500 ${booksLoading ? 'animate-spin text-warm-accent' : ''}`}
+          >
+            <ArrowsClockwise size={20} />
+          </button>
+        </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-4">
@@ -85,6 +104,42 @@ const Home = () => {
         ))}
       </div>
 
+      {/* Achievements Section */}
+      <section className="space-y-4">
+        <div className="flex justify-between items-center px-2">
+           <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-warm-muted/60">Milestones</h3>
+           <Trophy size={18} className="text-warm-accent opacity-50" />
+        </div>
+        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+           {achievements.map((ach) => (
+             <div 
+               key={ach.id}
+               className={`flex-shrink-0 w-48 p-5 rounded-[2rem] border transition-all ${
+                 ach.isUnlocked 
+                   ? 'bg-warm-accent/10 border-warm-accent/20' 
+                   : 'bg-white/50 dark:bg-dark-surface/50 border-warm-border/10 opacity-60'
+               }`}
+             >
+               <div className="flex items-start justify-between mb-3">
+                 <div className={`p-2 rounded-xl ${ach.isUnlocked ? 'bg-warm-accent text-white' : 'bg-warm-muted/20 text-warm-muted'}`}>
+                   <Trophy size={16} weight={ach.isUnlocked ? "fill" : "regular"} />
+                 </div>
+                 {ach.isUnlocked && <CheckCircle size={16} weight="fill" className="text-warm-green" />}
+               </div>
+               <h4 className="text-xs font-black text-warm-text dark:text-dark-text truncate">{ach.title}</h4>
+               <p className="text-[9px] text-warm-muted mt-1 leading-tight line-clamp-2">{ach.description}</p>
+               
+               <div className="mt-4 h-1.5 w-full bg-warm-muted/10 rounded-full overflow-hidden">
+                 <div 
+                   className={`h-full transition-all duration-1000 ${ach.isUnlocked ? 'bg-warm-accent' : 'bg-warm-muted/40'}`} 
+                   style={{ width: `${ach.progress}%` }}
+                 />
+               </div>
+             </div>
+           ))}
+        </div>
+      </section>
+
       {/* Cascading Overlapping "Currently Reading" List */}
       <section className="space-y-4">
         <div className="flex justify-between items-center px-2">
@@ -98,7 +153,6 @@ const Home = () => {
               {currentlyReading.map((book, index) => (
                 <motion.div 
                   key={book.id}
-                  layoutId={`book-${book.id}`}
                   onClick={() => setSelectedBook(book)}
                   initial={{ x: 50, opacity: 0, rotate: -5 }}
                   animate={{ x: 0, opacity: 1, rotate: index % 2 === 0 ? -2 : 2 }}
@@ -182,17 +236,8 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Detail Modal */}
-      <AnimatePresence>
-        {selectedBook && (
-          <BookDetailModal 
-            book={selectedBook} 
-            onClose={() => setSelectedBook(null)} 
-          />
-        )}
-      </AnimatePresence>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

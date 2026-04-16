@@ -1,3 +1,25 @@
+export const BOOK_SPINE_COLORS = [
+  '#6B8F71', // Sage Green
+  '#C17F4A', // Terracotta
+  '#4A6FA5', // Slate Blue
+  '#8B5E83', // Dusty Plum
+  '#556B2F', // Olive Drab
+  '#A0522D', // Sienna
+  '#483D8B', // Dark Slate Blue
+  '#2F4F4F', // Dark Slate Gray
+  '#800000', // Maroon
+  '#556B2F', // Dark Olive
+  '#D4A373', // Camel
+  '#E9EDC9', // Beige
+  '#CCD5AE', // Tea Green
+  '#FAEDCD', // Papaya Whip
+  '#FEFAE0', // Cornsilk
+];
+
+export const getRandomBookColor = () => {
+  return BOOK_SPINE_COLORS[Math.floor(Math.random() * BOOK_SPINE_COLORS.length)];
+};
+
 /**
  * Utility to determine if a color is light or dark to set appropriate text contrast
  * @param {string} hex - The hex color string

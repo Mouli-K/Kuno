@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../config/firebase';
-import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
+import { collection, query, onSnapshot, orderBy, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext';
 
 export const useNotifications = () => {
@@ -33,5 +33,20 @@ export const useNotifications = () => {
     return unsubscribe;
   }, [currentUser]);
 
-  return { notifications, loading };
+  const createNotification = async (message, type = 'milestone') => {
+    if (!currentUser) return;
+    try {
+      const notifsRef = collection(db, 'users', currentUser.uid, 'notifications');
+      await addDoc(notifsRef, {
+        message,
+        type,
+        isRead: false,
+        createdAt: serverTimestamp()
+      });
+    } catch (err) {
+      console.error("Error creating notification:", err);
+    }
+  };
+
+  return { notifications, loading, createNotification };
 };

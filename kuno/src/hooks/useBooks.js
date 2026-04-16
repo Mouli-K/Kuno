@@ -6,7 +6,13 @@ import { useAuth } from '../contexts/AuthContext';
 export const useBooks = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
   const { currentUser } = useAuth();
+
+  const refresh = () => {
+    setLoading(true);
+    setRefreshKey(prev => prev + 1);
+  };
 
   useEffect(() => {
     if (!currentUser) {
@@ -31,7 +37,7 @@ export const useBooks = () => {
     });
 
     return unsubscribe;
-  }, [currentUser]);
+  }, [currentUser, refreshKey]);
 
-  return { books, loading };
+  return { books, loading, refresh };
 };

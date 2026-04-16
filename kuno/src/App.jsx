@@ -5,13 +5,6 @@ import { useTheme } from './hooks/useTheme';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { useReminder } from './hooks/useReminder';
 
-const ProtectedRoute = ({ children }) => {
-  const { currentUser, loading } = useAuth();
-  if (loading) return null; // Or a loading spinner
-  if (!currentUser) return <Navigate to="/login" replace />;
-  return children;
-};
-
 // Pages
 import Splash from './pages/Splash';
 import Login from './pages/Login';
@@ -25,16 +18,24 @@ import Notifications from './pages/Notifications';
 import TopBar from './components/layout/TopBar';
 import BottomNav from './components/layout/BottomNav';
 import AddBookDrawer from './components/modals/AddBookDrawer';
+import BookDetailModal from './components/modals/BookDetailModal';
 
 import { App as CapApp } from '@capacitor/app';
 
+const ProtectedRoute = ({ children }) => {
+  const { currentUser, loading } = useAuth();
+  if (loading) return null;
+  if (!currentUser) return <Navigate to="/login" replace />;
+  return children;
+};
+
 const AppContent = () => {
   const { theme, toggleTheme } = useTheme();
+  const { selectedBook, setSelectedBook } = useAuth();
   useReminder();
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const location = useLocation();
-  const navigate = useNavigate();
   const showNav = !['/splash', '/login', '/register'].includes(location.pathname);
 
   const toggleNotifications = () => setNotificationsEnabled(!notificationsEnabled);
@@ -129,6 +130,17 @@ const AppContent = () => {
       {showNav && <BottomNav onOpenAdd={() => setIsAddDrawerOpen(true)} />}
       
       <AddBookDrawer isOpen={isAddDrawerOpen} onClose={() => setIsAddDrawerOpen(false)} />
+
+      {/* Global Book Detail Modal */}
+      <AnimatePresence>
+        {selectedBook && selectedBook.id && (
+          <BookDetailModal 
+            key={selectedBook.id}
+            book={selectedBook} 
+            onClose={() => setSelectedBook(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

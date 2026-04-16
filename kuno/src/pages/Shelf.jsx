@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Books, CircleNotch } from '@phosphor-icons/react';
+import { Books, CircleNotch, ArrowsClockwise } from '@phosphor-icons/react';
+import { useAuth } from '../contexts/AuthContext';
 import { useBooks } from '../hooks/useBooks';
 import ShelfSection from '../components/bookshelf/ShelfSection';
-import BookDetailModal from '../components/modals/BookDetailModal';
+import PullToRefresh from '../components/ui/PullToRefresh';
 
 const Shelf = () => {
-  const { books, loading } = useBooks();
+  const { setSelectedBook } = useAuth();
+  const { books, loading, refresh } = useBooks();
   const [filter, setFilter] = useState('All');
   const [genreFilter, setGenreFilter] = useState('All');
-  const [selectedBook, setSelectedBook] = useState(null);
 
   const statuses = ['All', 'Currently Reading', 'Finished', 'Unread', 'Wishlist', 'Not for Me'];
   const statusMap = {
@@ -29,7 +30,7 @@ const Shelf = () => {
     return statusMatch && genreMatch;
   });
 
-  if (loading) {
+  if (loading && books.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh] text-warm-muted">
         <CircleNotch size={48} className="animate-spin mb-4" />
@@ -39,101 +40,103 @@ const Shelf = () => {
   }
 
   return (
-    <div className="pb-20 min-h-screen">
-      {/* Filter Chips */}
-      <div className="px-6 py-4 space-y-4 overflow-hidden sticky top-0 z-30 bg-warm-bg/90 dark:bg-dark-bg/90 backdrop-blur-md">
-        <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-2 px-2">
-          {statuses.map(s => (
-            <button
-              key={s}
-              onClick={() => setFilter(s)}
-              className={`px-4 py-2 rounded-full text-xs font-sans font-bold whitespace-nowrap transition-all ${
-                filter === s 
-                  ? 'bg-warm-accent text-white shadow-md' 
-                  : 'bg-warm-surface dark:bg-dark-surface text-warm-muted dark:text-dark-muted'
-              }`}
+    <div className="relative min-h-screen">
+      <PullToRefresh onRefresh={refresh} />
+      
+      <div className="pb-20">
+        {/* Filter Chips */}
+        <div className="px-6 py-4 space-y-4 overflow-hidden sticky top-0 z-30 bg-warm-bg/90 dark:bg-dark-bg/90 backdrop-blur-md">
+          <div className="flex gap-2 items-center">
+            <div className="flex gap-2 overflow-x-auto no-scrollbar flex-grow">
+              {statuses.map(s => (
+                <button
+                  key={s}
+                  onClick={() => setFilter(s)}
+                  className={`px-4 py-2 rounded-full text-xs font-sans font-bold whitespace-nowrap transition-all ${
+                    filter === s 
+                      ? 'bg-warm-accent text-white shadow-md' 
+                      : 'bg-warm-surface dark:bg-dark-surface text-warm-muted dark:text-dark-muted'
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+            <button 
+              onClick={refresh}
+              className={`p-2 rounded-full bg-warm-surface dark:bg-dark-surface text-warm-muted flex-shrink-0 ${loading ? 'animate-spin text-warm-accent' : ''}`}
             >
-              {s}
+              <ArrowsClockwise size={16} />
             </button>
-          ))}
+          </div>
+          
+          <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-2 px-2">
+            {genres.map(g => (
+              <button
+                key={g}
+                onClick={() => setGenreFilter(g)}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-sans font-bold uppercase tracking-widest transition-all ${
+                  genreFilter === g 
+                    ? 'bg-warm-text dark:bg-dark-text text-white dark:text-dark-bg shadow-sm' 
+                    : 'border border-warm-border/30 dark:border-dark-border/30 text-warm-muted/70 dark:text-dark-muted/70'
+                }`}
+              >
+                {g}
+              </button>
+            ))}
+          </div>
         </div>
-        
-        <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-2 px-2">
-          {genres.map(g => (
-            <button
-              key={g}
-              onClick={() => setGenreFilter(g)}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-sans font-bold uppercase tracking-widest transition-all ${
-                genreFilter === g 
-                  ? 'bg-warm-text dark:bg-dark-text text-white dark:text-dark-bg shadow-sm' 
-                  : 'border border-warm-border/30 dark:border-dark-border/30 text-warm-muted/70 dark:text-dark-muted/70'
-              }`}
-            >
-              {g}
-            </button>
-          ))}
-        </div>
-      </div>
 
-      {/* The Bookshelf */}
-      <div className="py-8">
-        {filter === 'All' ? (
-          <>
-            <ShelfSection 
-              title="📖 Currently Reading" 
-              books={filteredBooks.filter(b => b.status === 'reading')} 
-              onBookClick={setSelectedBook}
-            />
-            <ShelfSection 
-              title="✅ Finished" 
-              books={filteredBooks.filter(b => b.status === 'read')} 
-              onBookClick={setSelectedBook}
-            />
-            <ShelfSection 
-              title="📦 Unread" 
-              books={filteredBooks.filter(b => b.status === 'bought_not_started')} 
-              onBookClick={setSelectedBook}
-            />
-            <ShelfSection 
-              title="🛒 Wishlist" 
-              books={filteredBooks.filter(b => b.status === 'want_to_buy')} 
-              onBookClick={setSelectedBook}
-            />
-            <div className="mt-12 pt-12 border-t border-warm-border/10">
+        {/* The Bookshelf */}
+        <div className="py-8">
+          {filter === 'All' ? (
+            <>
               <ShelfSection 
-                title="🌑 Not for Me (Archive)" 
-                books={filteredBooks.filter(b => b.status === 'archive')} 
+                title="📖 Currently Reading" 
+                books={filteredBooks.filter(b => b.status === 'reading')} 
                 onBookClick={setSelectedBook}
               />
-            </div>
-          </>
-        ) : (
-          <ShelfSection 
-            title={filter} 
-            books={filteredBooks} 
-            onBookClick={setSelectedBook}
-          />
+              <ShelfSection 
+                title="✅ Finished" 
+                books={filteredBooks.filter(b => b.status === 'read')} 
+                onBookClick={setSelectedBook}
+              />
+              <ShelfSection 
+                title="📦 Unread" 
+                books={filteredBooks.filter(b => b.status === 'bought_not_started')} 
+                onBookClick={setSelectedBook}
+              />
+              <ShelfSection 
+                title="🛒 Wishlist" 
+                books={filteredBooks.filter(b => b.status === 'want_to_buy')} 
+                onBookClick={setSelectedBook}
+              />
+              <div className="mt-12 pt-12 border-t border-warm-border/10">
+                <ShelfSection 
+                  title="🌑 Not for Me (Archive)" 
+                  books={filteredBooks.filter(b => b.status === 'archive')} 
+                  onBookClick={setSelectedBook}
+                />
+              </div>
+            </>
+          ) : (
+            <ShelfSection 
+              title={filter} 
+              books={filteredBooks} 
+              onBookClick={setSelectedBook}
+            />
+          )}
+        </div>
+
+        {/* Empty State */}
+        {filteredBooks.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-20 px-10 text-center opacity-50">
+            <Books size={64} className="mb-4 text-warm-muted" />
+            <p className="font-serif italic text-xl">Your shelf feels a bit lonely...</p>
+            <p className="text-sm mt-2">Try changing your filters or add a new book!</p>
+          </div>
         )}
       </div>
-
-      {/* Empty State */}
-      {filteredBooks.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 px-10 text-center opacity-50">
-          <Books size={64} className="mb-4 text-warm-muted" />
-          <p className="font-serif italic text-xl">Your shelf feels a bit lonely...</p>
-          <p className="text-sm mt-2">Try changing your filters or add a new book!</p>
-        </div>
-      )}
-
-      {/* Book Detail Modal */}
-      <AnimatePresence>
-        {selectedBook && (
-          <BookDetailModal 
-            book={selectedBook} 
-            onClose={() => setSelectedBook(null)} 
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 };
