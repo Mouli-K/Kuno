@@ -35,7 +35,7 @@ const StatusBadge = ({ status }) => {
 const BookDetailModal = ({ book, onClose }) => {
   if (!book) return null;
 
-  const { currentUser } = useAuth();
+  const { currentUser, userData } = useAuth();
   const { recordSession, updateWidget } = useReminder();
   const { createNotification } = useNotifications();
   
@@ -45,6 +45,11 @@ const BookDetailModal = ({ book, onClose }) => {
   const [pagesRead, setPagesRead] = useState(currentPagesRead);
   const [updating, setUpdating] = useState(false);
   const progress = Math.min(100, Math.max(0, Math.round((pagesRead / totalPages) * 100) || 0));
+
+  // Sync internal state with prop for live updates
+  React.useEffect(() => {
+    setPagesRead(book?.progress?.pagesRead || 0);
+  }, [book?.progress?.pagesRead]);
 
   React.useEffect(() => {
     if (book && book.id) {

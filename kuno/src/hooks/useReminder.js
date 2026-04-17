@@ -13,7 +13,7 @@ export const useReminder = () => {
   const { currentUser, userData } = useAuth();
 
   useEffect(() => {
-    if (!currentUser || !userData) return;
+    if (!currentUser || !userData?.preferences) return;
 
     const setupNotifications = async () => {
       try {
@@ -25,19 +25,27 @@ export const useReminder = () => {
         await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
 
         if (userData.preferences?.notificationsEnabled) {
+          const intervalHours = userData.preferences.readingReminderIntervalHours || 4;
+          
           await LocalNotifications.schedule({
             notifications: [
               {
                 title: `Time to read, ${userData.displayName?.split(' ')[0]} 📖`,
                 body: "Your shelf is waiting. Pick up where you left off.",
                 id: 1,
-                schedule: { every: 'day' }, // Use 'day' for reliability in simplified builds
+                schedule: { 
+                  allowPause: true,
+                  repeats: true,
+                  every: intervalHours === 24 ? 'day' : 'hour',
+                  on: intervalHours !== 24 ? { hour: intervalHours } : undefined
+                },
                 sound: null,
                 actionTypeId: "",
                 extra: null
               }
             ]
           });
+          console.log(`Scheduled reminder every ${intervalHours} hours`);
         }
       } catch (err) {
         console.error("Notification setup error:", err);
@@ -45,7 +53,7 @@ export const useReminder = () => {
     };
 
     setupNotifications();
-  }, [currentUser, userData]);
+  }, [currentUser, userData?.preferences?.notificationsEnabled, userData?.preferences?.readingReminderIntervalHours]);
 
   const recordSession = async () => {
     if (!currentUser) return;
@@ -60,6 +68,8 @@ export const useReminder = () => {
   };
 
   const updateWidget = async (activeBooks) => {
+    if (!activeBooks) return;
+    
     // If we only get one book, wrap it in an array
     const booksToUpdate = Array.isArray(activeBooks) ? activeBooks : [activeBooks];
     
@@ -71,7 +81,7 @@ export const useReminder = () => {
         title: book.title || "Untitled",
         author: book.author || "Unknown",
         spineColor: book.spineColor || "#6B8F71",
-        progress: Math.round((book.progress?.pagesRead / (book.progress?.totalPages || 1)) * 100) || 0
+        progress: Math.round(((book.progress?.pagesRead || 0) / (book.progress?.totalPages || 1)) * 100) || 0
       }));
 
       await Preferences.set({ 

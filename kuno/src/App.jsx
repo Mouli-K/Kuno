@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from './hooks/useTheme';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { useReminder } from './hooks/useReminder';
+import { useStreak } from './hooks/useStreak';
 
 // Pages
 import Splash from './pages/Splash';
@@ -33,6 +34,7 @@ const AppContent = () => {
   const { theme, toggleTheme } = useTheme();
   const { selectedBook, setSelectedBook } = useAuth();
   useReminder();
+  useStreak();
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const location = useLocation();

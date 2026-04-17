@@ -36,21 +36,37 @@
 ## Phase 3: Android APK Build (Completed)
 - Capacitor integration for Android successfully configured.
 - Native push notifications (4-hour reminders) implemented via `@capacitor/local-notifications`.
-- Native Home Screen Widget implemented in Java (reverted from Kotlin for compatibility) with robust color parsing and full-surface click support.
 - Implemented "Double-tap to Exit" global navigation logic with animated toast.
 - Automated build process for Android APK verified and successful.
 - Git repository initialized and pushed to GitHub (main branch).
 
-## Phase 4: UX Refinement & Widget Fixes (Current)
-- **Widget Loading Fix**: Corrected Android Manifest package mapping and resource definitions to resolve "Can't load widget" error.
+## Phase 4: UX Refinement & Achievement System (Completed)
+- **Centered Modal UX**: Replaced bottom drawer with a centered, more focused `BookDetailModal` for better ergonomics on all screens.
+- **Milestone & Alerts**: 
+    - Implemented `createNotification` system for milestones (50, 100 pages).
+    - Added "Give it another chance" logic to restore archived books to "Reading".
+    - Added "Read again" functionality for finished books.
+- **Home Dashboard Evolution**: 
+    - Added **Milestones** horizontal scroll section to track achievements (Centurion, Consistent Reader, etc.).
+    - Enhanced stats grid with **Day Streak** and **Max Pages** read metrics.
 - **Data Synchronization**:
     - Implemented **Pull-to-Refresh** gesture on Home and Shelf pages for manual library re-sync.
     - Added manual refresh buttons (ArrowsClockwise) to top headers.
-    - Updated `useBooks` hook to support forced refresh logic.
 - **Robust Navigation**: 
-    - Fixed "Blank Screen" issue in `BookDetailModal` by adding null-safety guards for book data.
-    - Improved loading states to prevent UI flickering during background sync.
-- **Improved Android Layouts**: Simplified widget XML to ensure compatibility with standard Android RemoteViews.
+    - Fixed "Blank Screen" issue in `BookDetailModal` by adding null-safety guards for book data and forcing re-mounts via `key` props.
+    - Optimized `AddBookDrawer` to auto-close and reset state immediately upon successful book addition.
+- **Widget Deprecation**: Completely removed native Android widget code and synchronization logic to focus on core app stability.
+
+## Phase 5: Reliability & Live Sync (Completed)
+- **Live Progress Updates**: Fixed `BookDetailModal` to synchronize internal `pagesRead` state with real-time Firestore updates, ensuring immediate UI feedback without re-opening.
+- **Smart Reminders**: Refined `useReminder` to correctly handle the 4-hour interval preference for native push notifications.
+- **Streak & Summary Persistence**:
+    - Implemented `useStreak` hook to automatically calculate and update daily reading streaks on app launch.
+    - Fixed `userData` context bug in `BookDetailModal` that prevented global stats (Max Pages, etc.) from updating correctly.
+- **Widget Refinement**:
+    - Synchronized `updateWidget` to use multi-book JSON format for the Android widget.
+    - Optimized widget to display up to 2 active books simultaneously (Static display optimized for stability).
+- **Navigation Safety**: Enhanced `App.jsx` with unique `key` props for the global modal to prevent state stale-ness across different books.
 
 ## Key Constants & Decisions
 - **Project Name**: Kuno
@@ -61,4 +77,3 @@
 - **Persistence Policy**: Local-first with Firestore sync; UI prioritizes immediate local feedback.
 - **Mobile Platform**: Android (via Capacitor 8.3.0, Java bridge).
 - **Navigation UX**: Double-tap back button to exit app from any tab.
-
