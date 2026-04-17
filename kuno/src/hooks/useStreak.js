@@ -19,22 +19,22 @@ export const useStreak = () => {
       const lastReadDate = new Date(lastRead);
       lastReadDate.setHours(0, 0, 0, 0);
 
-      const diffTime = Math.abs(today - lastReadDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      // If we already read today (or more recently), no need to check/reset
+      if (lastReadDate.getTime() >= today.getTime()) return;
+
+      const diffTime = today.getTime() - lastReadDate.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
       const userRef = doc(db, 'users', currentUser.uid);
 
       if (diffDays === 1) {
-        // Increment streak if last read was yesterday
-        await updateDoc(userRef, {
-          'stats.dayStreak': increment(1),
-          lastReadSessionAt: serverTimestamp() // Update to today
-        });
+        // We haven't read today yet, but we read yesterday. 
+        // We don't increment here; we only increment in BookDetailModal when they actually read.
+        // This hook is mainly for RESETTING if they missed a day.
       } else if (diffDays > 1) {
         // Reset streak if last read was more than a day ago
         await updateDoc(userRef, {
-          'stats.dayStreak': 1,
-          lastReadSessionAt: serverTimestamp()
+          'stats.dayStreak': 0
         });
       }
     };

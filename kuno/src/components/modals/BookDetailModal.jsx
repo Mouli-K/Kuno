@@ -36,6 +36,7 @@ const BookDetailModal = ({ book, onClose }) => {
   if (!book) return null;
 
   const { currentUser, userData } = useAuth();
+  const { books } = useBooks();
   const { recordSession, updateWidget } = useReminder();
   const { createNotification } = useNotifications();
   
@@ -94,8 +95,11 @@ const BookDetailModal = ({ book, onClose }) => {
 
       // If we haven't read yet today, update streak
       if (!lastReadDate || today.getTime() > lastReadDate.getTime()) {
-        const diffDays = lastReadDate ? Math.ceil(Math.abs(today - lastReadDate) / (1000 * 60 * 60 * 24)) : 2;
+        const diffTime = lastReadDate ? today.getTime() - lastReadDate.getTime() : null;
+        const diffDays = diffTime ? Math.floor(diffTime / (1000 * 60 * 60 * 24)) : 2;
         
+        const currentStreak = userData?.stats?.dayStreak || 0;
+
         if (diffDays === 1) {
           statsUpdate['stats.dayStreak'] = increment(1);
         } else {
@@ -167,6 +171,13 @@ const BookDetailModal = ({ book, onClose }) => {
         await updateDoc(userRef, statsUpdate);
       }
 
+      // Sync widget with current reading list after status change
+      const updatedReadingList = books.filter(b => b.id !== book.id && b.status === 'reading');
+      if (newStatus === 'reading') {
+        updatedReadingList.unshift({ ...book, status: newStatus });
+      }
+      updateWidget(updatedReadingList);
+
       onClose();
     } catch (err) {
       console.error("Error changing status: ", err);
@@ -207,6 +218,10 @@ const BookDetailModal = ({ book, onClose }) => {
           [`stats.${statusStat}`]: increment(-1)
         });
       }
+
+      // Sync widget by removing this book from the active list
+      const updatedReadingList = books.filter(b => b.id !== book.id && b.status === 'reading');
+      updateWidget(updatedReadingList);
 
       onClose();
     } catch (err) {

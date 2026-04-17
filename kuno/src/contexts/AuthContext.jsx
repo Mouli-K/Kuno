@@ -32,7 +32,8 @@ export const AuthProvider = ({ children }) => {
         totalRead: 0,
         currentlyReading: 0,
         wantToBuy: 0,
-        boughtNotStarted: 0
+        boughtNotStarted: 0,
+        dayStreak: 0
       }
     };
     
