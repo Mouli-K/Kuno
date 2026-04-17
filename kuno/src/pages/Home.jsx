@@ -54,9 +54,9 @@ const Home = () => {
       color: 'bg-warm-rose/10 text-warm-rose' 
     },
     { 
-      label: 'Max Pages', 
-      value: userData?.stats?.maxPagesInOneBook || 0, 
-      icon: <ChartLineUp size={24} />, 
+      label: 'Reading Now', 
+      value: userData?.stats?.currentlyReading || 0, 
+      icon: <BookmarkSimple size={24} />, 
       color: 'bg-warm-blue/10 text-warm-blue' 
     },
     { 

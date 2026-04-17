@@ -57,16 +57,20 @@
     - Optimized `AddBookDrawer` to auto-close and reset state immediately upon successful book addition.
 - **Widget Deprecation**: Completely removed native Android widget code and synchronization logic to focus on core app stability.
 
-## Phase 5: Reliability & Live Sync (Completed)
-- **Live Progress Updates**: Fixed `BookDetailModal` to synchronize internal `pagesRead` state with real-time Firestore updates, ensuring immediate UI feedback without re-opening.
-- **Smart Reminders**: Refined `useReminder` to correctly handle the 4-hour interval preference for native push notifications.
-- **Streak & Summary Persistence**:
-    - Implemented `useStreak` hook to automatically calculate and update daily reading streaks on app launch.
-    - Fixed `userData` context bug in `BookDetailModal` that prevented global stats (Max Pages, etc.) from updating correctly.
-- **Widget Refinement**:
-    - Synchronized `updateWidget` to use multi-book JSON format for the Android widget.
-    - Optimized widget to display up to 2 active books simultaneously (Static display optimized for stability).
-- **Navigation Safety**: Enhanced `App.jsx` with unique `key` props for the global modal to prevent state stale-ness across different books.
+## Phase 5: Reliability & Granular UX (Completed)
+- **Live Progress Updates**: Fixed `BookDetailModal` to synchronize internal `pagesRead` state with real-time Firestore updates, ensuring immediate UI feedback.
+- **Granular Page Control**: 
+    - Replaced +/- 10 buttons with a dual-control system: a slider for rapid navigation and +/- 1 buttons for precise tracking.
+    - Added a direct numerical input field for manual page entry.
+    - Fixed a bug where decreasing page count failed to sync to the database.
+- **Smart Reminders & Streaks**:
+    - Refined `useReminder` to correctly handle the 4-hour interval preference.
+    - Integrated "Live Streak" logic: streaks now update immediately upon reading if it's the first session of the day, rather than waiting for an app restart.
+- **Home Summary Evolution**: Replaced "Max Pages" with "Reading Now" to provide more relevant dashboard feedback.
+- **Quad-Book Widget**:
+    - Redesigned the Android widget to support up to 4 active books (1 primary with progress bar, 3 secondary with compact status).
+    - Fixed widget data capture to ensure page updates are reflected immediately on the home screen.
+- **Navigation Safety**: Enhanced `App.jsx` with unique `key` props for the global modal to prevent state stale-ness.
 
 ## Key Constants & Decisions
 - **Project Name**: Kuno

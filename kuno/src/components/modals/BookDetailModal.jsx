@@ -60,33 +60,53 @@ const BookDetailModal = ({ book, onClose }) => {
 
   const updatePagesInFirestore = async (newPages) => {
     if (!currentUser || !book?.id) return;
+    const sanitizedPages = Math.min(totalPages, Math.max(0, newPages));
+    
     try {
       setUpdating(true);
       const bookRef = doc(db, 'users', currentUser.uid, 'books', book.id);
       const userRef = doc(db, 'users', currentUser.uid);
       
       // Check for milestones
-      if (newPages >= 100 && currentPagesRead < 100) {
+      if (sanitizedPages >= 100 && currentPagesRead < 100) {
         await createNotification(`Milestone! You've read 100 pages of "${book.title}". Keep it up!`, 'milestone');
-      } else if (newPages >= 50 && currentPagesRead < 50) {
+      } else if (sanitizedPages >= 50 && currentPagesRead < 50) {
         await createNotification(`Halfway to a hundred! 50 pages read in "${book.title}".`, 'milestone');
       }
 
       await updateDoc(bookRef, {
-        'progress.pagesRead': newPages,
-        'progress.percentComplete': Math.round((newPages / totalPages) * 100),
+        'progress.pagesRead': sanitizedPages,
+        'progress.percentComplete': Math.round((sanitizedPages / totalPages) * 100),
         'lastUpdated': serverTimestamp()
       });
 
-      // Update user stats for achievements
-      if (newPages > (userData?.stats?.maxPagesInOneBook || 0)) {
-        await updateDoc(userRef, {
-          'stats.maxPagesInOneBook': newPages
-        });
+      // Live Streak Update Logic
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const lastRead = userData?.lastReadSessionAt?.toDate ? userData.lastReadSessionAt.toDate() : null;
+      const lastReadDate = lastRead ? new Date(lastRead) : null;
+      if (lastReadDate) lastReadDate.setHours(0, 0, 0, 0);
+
+      const statsUpdate = {
+        lastReadSessionAt: serverTimestamp()
+      };
+
+      // If we haven't read yet today, update streak
+      if (!lastReadDate || today.getTime() > lastReadDate.getTime()) {
+        const diffDays = lastReadDate ? Math.ceil(Math.abs(today - lastReadDate) / (1000 * 60 * 60 * 24)) : 2;
+        
+        if (diffDays === 1) {
+          statsUpdate['stats.dayStreak'] = increment(1);
+        } else {
+          statsUpdate['stats.dayStreak'] = 1;
+        }
       }
 
-      setPagesRead(newPages);
-      updateWidget({ ...book, progress: { ...book.progress, pagesRead: newPages } });
+      await updateDoc(userRef, statsUpdate);
+
+      setPagesRead(sanitizedPages);
+      updateWidget({ ...book, progress: { ...book.progress, pagesRead: sanitizedPages } });
     } catch (err) {
       console.error("Error updating pages: ", err);
     } finally {
@@ -138,6 +158,11 @@ const BookDetailModal = ({ book, onClose }) => {
       if (oldStatusStat) statsUpdate[`stats.${oldStatusStat}`] = increment(-1);
       if (newStatusStat) statsUpdate[`stats.${newStatusStat}`] = increment(1);
       
+      // Update session for streak if starting to read
+      if (newStatus === 'reading') {
+        statsUpdate.lastReadSessionAt = serverTimestamp();
+      }
+
       if (Object.keys(statsUpdate).length > 0) {
         await updateDoc(userRef, statsUpdate);
       }
@@ -252,28 +277,84 @@ const BookDetailModal = ({ book, onClose }) => {
               <div className="bg-white/40 dark:bg-dark-surface/40 backdrop-blur-sm p-6 rounded-[2rem] border border-white dark:border-white/5 shadow-sm space-y-6">
                 <ProgressBar progress={progress} />
                 
-                <div className="flex items-center justify-between gap-4">
-                  <button 
-                    onClick={() => updatePagesInFirestore(Math.max(0, pagesRead - 10))}
-                    disabled={updating}
-                    className="p-2.5 bg-warm-accent/10 text-warm-accent rounded-xl active:scale-90 transition-all disabled:opacity-50"
-                  >
-                    <Minus size={16} weight="bold" />
-                  </button>
-                  
-                  <div className="text-center flex-grow">
-                    <span className="text-xl font-black text-warm-text dark:text-dark-text font-serif">{pagesRead}</span>
-                    <span className="text-xs text-warm-muted font-bold mx-1.5 opacity-40">/</span>
-                    <span className="text-xs text-warm-muted font-black uppercase tracking-widest">{book.progress?.totalPages}</span>
+                <div className="space-y-6">
+                  {/* Granular Slider */}
+                  <div className="px-2">
+                    <input 
+                      type="range"
+                      min="0"
+                      max={book.progress?.totalPages || 100}
+                      value={pagesRead}
+                      onChange={(e) => setPagesRead(parseInt(e.target.value))}
+                      onBlur={() => updatePagesInFirestore(pagesRead)}
+                      className="w-full h-1.5 bg-warm-accent/20 rounded-lg appearance-none cursor-pointer accent-warm-accent"
+                    />
                   </div>
 
-                  <button 
-                    onClick={() => updatePagesInFirestore(Math.min(book.progress?.totalPages || 0, pagesRead + 10))}
-                    disabled={updating}
-                    className="p-2.5 bg-warm-accent/10 text-warm-accent rounded-xl active:scale-90 transition-all disabled:opacity-50"
-                  >
-                    <Plus size={16} weight="bold" />
-                  </button>
+                  {/* Manual Controls */}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={() => {
+                          const val = Math.max(0, pagesRead - 1);
+                          setPagesRead(val);
+                          updatePagesInFirestore(val);
+                        }}
+                        disabled={updating}
+                        className="p-2 bg-warm-accent/5 text-warm-accent rounded-lg active:scale-90 transition-all disabled:opacity-50"
+                      >
+                        <Minus size={12} weight="bold" />
+                      </button>
+                      <button 
+                        onClick={() => {
+                          const val = Math.max(0, pagesRead - 10);
+                          setPagesRead(val);
+                          updatePagesInFirestore(val);
+                        }}
+                        disabled={updating}
+                        className="p-2 bg-warm-accent/10 text-warm-accent rounded-lg active:scale-90 transition-all disabled:opacity-50"
+                      >
+                        <Minus size={16} weight="bold" />
+                      </button>
+                    </div>
+                    
+                    <div className="text-center flex-grow flex items-center justify-center gap-1">
+                      <input 
+                        type="number"
+                        value={pagesRead}
+                        onChange={(e) => setPagesRead(parseInt(e.target.value) || 0)}
+                        onBlur={() => updatePagesInFirestore(pagesRead)}
+                        className="w-12 text-center bg-transparent text-xl font-black text-warm-text dark:text-dark-text font-serif border-b border-warm-accent/20 focus:border-warm-accent outline-none"
+                      />
+                      <span className="text-xs text-warm-muted font-bold opacity-40">/</span>
+                      <span className="text-xs text-warm-muted font-black uppercase tracking-widest">{book.progress?.totalPages}</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={() => {
+                          const val = Math.min(book.progress?.totalPages || 0, pagesRead + 10);
+                          setPagesRead(val);
+                          updatePagesInFirestore(val);
+                        }}
+                        disabled={updating}
+                        className="p-2 bg-warm-accent/10 text-warm-accent rounded-lg active:scale-90 transition-all disabled:opacity-50"
+                      >
+                        <Plus size={16} weight="bold" />
+                      </button>
+                      <button 
+                        onClick={() => {
+                          const val = Math.min(book.progress?.totalPages || 0, pagesRead + 1);
+                          setPagesRead(val);
+                          updatePagesInFirestore(val);
+                        }}
+                        disabled={updating}
+                        className="p-2 bg-warm-accent/5 text-warm-accent rounded-lg active:scale-90 transition-all disabled:opacity-50"
+                      >
+                        <Plus size={12} weight="bold" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="pt-4 border-t border-warm-border/5 grid grid-cols-2 gap-3">
