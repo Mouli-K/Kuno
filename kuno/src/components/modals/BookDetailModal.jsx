@@ -82,34 +82,6 @@ const BookDetailModal = ({ book, onClose }) => {
         'lastUpdated': serverTimestamp()
       });
 
-      // Live Streak Update Logic
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      const lastRead = userData?.lastReadSessionAt?.toDate ? userData.lastReadSessionAt.toDate() : null;
-      const lastReadDate = lastRead ? new Date(lastRead) : null;
-      if (lastReadDate) lastReadDate.setHours(0, 0, 0, 0);
-
-      const statsUpdate = {
-        lastReadSessionAt: serverTimestamp()
-      };
-
-      // If we haven't read yet today, update streak
-      if (!lastReadDate || today.getTime() > lastReadDate.getTime()) {
-        const diffTime = lastReadDate ? today.getTime() - lastReadDate.getTime() : null;
-        const diffDays = diffTime ? Math.floor(diffTime / (1000 * 60 * 60 * 24)) : 2;
-        
-        const currentStreak = userData?.stats?.dayStreak || 0;
-
-        if (diffDays === 1) {
-          statsUpdate['stats.dayStreak'] = increment(1);
-        } else {
-          statsUpdate['stats.dayStreak'] = 1;
-        }
-      }
-
-      await updateDoc(userRef, statsUpdate);
-
       setPagesRead(sanitizedPages);
       updateWidget({ ...book, progress: { ...book.progress, pagesRead: sanitizedPages } });
     } catch (err) {

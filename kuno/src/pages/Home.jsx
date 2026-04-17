@@ -48,12 +48,6 @@ const Home = () => {
       color: 'bg-warm-accent/10 text-warm-accent' 
     },
     { 
-      label: 'Streak', 
-      value: `${userData?.stats?.dayStreak || 0}d`, 
-      icon: <Lightning size={24} />, 
-      color: 'bg-warm-rose/10 text-warm-rose' 
-    },
-    { 
       label: 'Reading Now', 
       value: userData?.stats?.currentlyReading || 0, 
       icon: <BookmarkSimple size={24} />, 
@@ -66,6 +60,8 @@ const Home = () => {
       color: 'bg-warm-green/10 text-warm-green' 
     },
   ];
+
+  const filteredStats = stats;
 
   return (
     <div className="relative">
