@@ -4,6 +4,7 @@ import { X, Star, PencilSimple, Trash, ShoppingCart, Plus, Minus, BookOpen, Quot
 import { db } from '../../config/firebase';
 import { doc, updateDoc, increment, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
+import { useBooks } from '../../hooks/useBooks';
 import { useReminder } from '../../hooks/useReminder';
 import { useNotifications } from '../../hooks/useNotifications';
 import ProgressBar from '../ui/ProgressBar';
